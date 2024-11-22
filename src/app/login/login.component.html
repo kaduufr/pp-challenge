@@ -1,0 +1,44 @@
+<main class="d-flex vh-100 justify-content-center align-items-center">
+  <div class="d-flex flex-column div-form-centered m-4 py-4">
+    <h1 class="text-center mb-4">Login</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-floating mb-4">
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="name@example.com"
+          formControlName="email"
+        />
+        <label for="email">Email</label>
+        <div *ngIf="email?.touched && email?.dirty && email?.invalid" class="text-danger fs-6 ms-2">
+          {{ getErrorMessage('email') }}
+        </div>
+      </div>
+      <div class="form-floating mb-4">
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <label for="password">Senha</label>
+        <div *ngIf="password?.touched && password?.dirty && password?.invalid" class="text-danger fs-6 ms-2">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-success w-100 btn-submit-login"
+        [disabled]="form.invalid"
+      >
+        Acessar
+      </button>
+    </form>
+    <div *ngIf="error" class="text-danger mt-3">
+      {{ error }}
+    </div>
+  </div>
+</main>
