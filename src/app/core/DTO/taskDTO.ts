@@ -1,10 +1,12 @@
 export class TaskDTO {
-  id: number;
-  name: string;
-  username: string;
-  title: string;
-  value: number;
-  date: string;
-  image: string;
-  isPayed: boolean;
+  id: number = -1
+  name: string = '';
+  username: string = '';
+  title: string = '';
+  value: number = 0;
+  date: Date = new Date();
+  image: string = '';
+  isPayed: boolean = false;
+
+  constructor() {}
 }

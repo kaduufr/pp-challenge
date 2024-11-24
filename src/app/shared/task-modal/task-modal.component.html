@@ -1,0 +1,104 @@
+<div
+  class="modal fade"
+  id="taskModalActionsModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #taskModalSelector
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalLabel">
+          {{ type === TaskModalTypeEnum.EDIT ? 'Editar' : 'Adicionar' }} Pagamento
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body container p-4">
+          <form [formGroup]="form">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    placeholder="Usuário"
+                    formControlName="username"
+                    required
+                  />
+                  <label for="user">Usuário</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="value"
+                    placeholder="Valor"
+                    formControlName="value"
+                    required
+                  />
+                  <label for="value">Valor</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="date"
+                    placeholder="Data"
+                    formControlName="date"
+                    required
+                  />
+                  <label for="date">Data</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    placeholder="Título"
+                    formControlName="title"
+                    required
+                  />
+                  <label for="title">Título</label>
+                </div>
+              </div>
+            </div>
+          </form>
+       </div>
+        <div class="modal-footer d-flex justify-content-between mt-4">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="close()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="form.invalid"
+            (click)="handleAction()"
+          >
+            <ng-container *ngIf="type === TaskModalTypeEnum.EDIT; else addTask">
+              Editar
+            </ng-container>
+
+            <ng-template #addTask>
+              Adicionar
+            </ng-template>
+          </button>
+        </div>
+    </div>
+  </div>
+</div>
