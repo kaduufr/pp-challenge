@@ -8,8 +8,9 @@ export class SessionStorageService {
   constructor() {}
 
   setItem<T = any>(key: string, value: T): boolean {
+    if (typeof window === 'undefined') return false;
     try {
-      sessionStorage.setItem(key, JSON.stringify(value));
+      sessionStorage?.setItem(key, JSON.stringify(value));
       return true;
     }
     catch (error) {
@@ -19,15 +20,19 @@ export class SessionStorageService {
   }
 
   getItem<T>(key: string): T | null {
-    const data = sessionStorage.getItem(key);
-    return data ? (JSON.parse(data) as T) : null;
-  }
-
-  removeItem(key: string): void {
-    sessionStorage.removeItem(key);
+    if (typeof window === 'undefined') return null;
+    try {
+      const data = sessionStorage.getItem(key);
+      return data ? (JSON.parse(data) as T) : null;
+    }
+    catch (error) {
+      console.error('Error getting from sessionStorage', error);
+      return null;
+    }
   }
 
   clear(): void {
     sessionStorage.clear();
   }
+
 }
