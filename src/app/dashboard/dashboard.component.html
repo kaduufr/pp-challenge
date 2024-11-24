@@ -1,1 +1,32 @@
-<p>dashboard works!</p>
+<app-top-bar/>
+
+<main>
+  <div class="w-100 m-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Titulo</th>
+          <th>Data</th>
+          <th>Valor</th>
+          <th>Pago</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of taskList">
+          <td>{{ task.username }}</td>
+          <td>{{ task.title }}</td>
+          <td>{{ task.date }}</td>
+          <td>{{ task.value }}</td>
+          <td>{{ task.isPayed }}</td>
+          <td>
+            <button class="btn btn-primary">Editar</button>
+            <button class="btn btn-danger">Excluir</button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

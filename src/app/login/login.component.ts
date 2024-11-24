@@ -3,6 +3,8 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {NgIf} from '@angular/common';
 import {LoginService} from './login.service';
 import {SessionStorageService} from '../shared/services/session-storage/session-storage.service';
+import {AuthService} from '../shared/services/auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,7 @@ export class LoginComponent {
   error: string = '';
   loading: boolean = false;
 
-  constructor(private loginService: LoginService, private sessionStorageService: SessionStorageService) {
+  constructor(private loginService: LoginService, private sessionStorageService: SessionStorageService, private authService: AuthService, private router: Router) {
   }
 
   ngOnInit() {
@@ -27,10 +29,12 @@ export class LoginComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
     })
+  }
 
-    const userData = this.sessionStorageService.getItem('user');
-    if (userData) {
-      console.log('Usuário logado', userData);
+  ngAfterViewInit() {
+    const isAuthenticated = this.authService.isAuthenticated()
+    if (isAuthenticated) {
+      this.router.navigate(['/dashboard'])
     }
   }
 
@@ -58,7 +62,8 @@ export class LoginComponent {
           name: user.name,
           email: user.email
         }
-        this.sessionStorageService.setItem('user', userData);
+        this.sessionStorageService.setItem('user', userData)
+        this.router.navigate(['/dashboard'])
       },
       error: (err) => {
         console.error(err.message);
