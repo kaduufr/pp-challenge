@@ -1,11 +1,42 @@
-<!--<div class="mainModal">-->
-<!--  <p>Usuário: {{ data?.name }}</p>-->
-<!--  <p>Data: {{ data?.date | date: 'dd/MM/yyyy' }}</p>-->
-<!--  <p>Valor: {{ data?.value | currency: 'BRL' }}</p>-->
-<!--  <div class="buttonRow">-->
-<!--    <div style="display: flex; justify-content: space-between; width:100%">-->
-<!--      <button mat-raised-button (click)="dialogRef.close()" type="button" class="buttonModal">Cancelar</button>-->
-<!--      <button id="save"  mat-raised-button (click)="emitPayment()" type="button" class="button buttonModal">Salvar</button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="taskModalTitle"
+  #deletePaymentModalSelector
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="taskModalTitle">
+          Excluir Pagamento
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <p>Usuário: {{ data?.name }}</p>
+        <p>Data: {{ data?.date | date: 'dd/MM/yyyy' }}</p>
+        <p>Valor: {{ data?.value | currency: 'BRL' }}</p>
+
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="close()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="close()"
+        >
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

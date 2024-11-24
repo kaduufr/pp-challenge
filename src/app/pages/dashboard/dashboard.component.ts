@@ -49,8 +49,8 @@ export class DashboardComponent {
     this.taskModal.open(task)
   }
 
-  openModalDeleteTask(taskId: number): void {
-    this.deletePaymentModal.open()
+  openModalDeleteTask(task: TaskDTO): void {
+    this.deletePaymentModal.open(task)
   }
 
   deleteTask(taskId: number) {

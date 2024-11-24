@@ -34,6 +34,9 @@ export class TaskModalComponent {
       value: new FormControl('', [Validators.required, Validators.min(0)]),
       date: new FormControl('', [Validators.required]),
     })
+  }
+
+  ngOnViewInit() {
     this.taskModalActionsModal.nativeElement.addEventListener('hidden.bs.modal', () => {
       this.form.reset()
       this.task = undefined
