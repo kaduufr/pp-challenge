@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ApiService} from '../shared/services/api/api.service';
+import {ApiService} from '../../shared/services/api/api.service';
 import {Observable, map, catchError, throwError} from 'rxjs';
 
 type UserResponseType = {

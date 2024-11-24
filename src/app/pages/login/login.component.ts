@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {LoginService} from './login.service';
-import {SessionStorageService} from '../shared/services/session-storage/session-storage.service';
-import {AuthService} from '../shared/services/auth/auth.service';
+import {SessionStorageService} from '../../shared/services/session-storage/session-storage.service';
+import {AuthService} from '../../shared/services/auth/auth.service';
 import {Router} from '@angular/router';
 
 @Component({

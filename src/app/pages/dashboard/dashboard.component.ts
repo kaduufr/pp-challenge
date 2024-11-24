@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {TopBarComponent} from '../top-bar/top-bar.component';
+import {TopBarComponent} from '../../shared/top-bar/top-bar.component';
 import {DashboardService} from './dashboard.service';
-import {ITask} from '../shared/interfaces/task';
+import {ITask} from '../../shared/interfaces/task';
 import {NgForOf} from '@angular/common';
 
 @Component({

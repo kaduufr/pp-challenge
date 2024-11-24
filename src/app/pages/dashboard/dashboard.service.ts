@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ApiService} from '../shared/services/api/api.service';
+import {ApiService} from '../../shared/services/api/api.service';
 import {map, Observable} from 'rxjs';
-import {ITask} from '../shared/interfaces/task';
+import {ITask} from '../../shared/interfaces/task';
 
 
 type TaskResponseType = {

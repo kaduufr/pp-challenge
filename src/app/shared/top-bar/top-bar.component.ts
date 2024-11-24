@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {SessionStorageService} from '../shared/services/session-storage/session-storage.service';
+import {SessionStorageService} from '../services/session-storage/session-storage.service';
 import {Router} from '@angular/router';
 
 @Component({
