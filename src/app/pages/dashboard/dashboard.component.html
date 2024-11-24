@@ -1,8 +1,17 @@
 <app-top-bar/>
 
 <main>
-  <div class="w-100 m-4">
-    <table class="table">
+  <div class="w-100 d-inline-flex justify-content-between px-5 my-4">
+    <input type="text" class="form-control w-25" placeholder="Pesquisar" aria-label="Pesquisar" aria-description="Digite aqui o usuario que voce quer pesquisar"/>
+    <div>
+      <button class="btn btn-outline-success" (click)="openModalHandleTask(TaskModalTypeEnum.ADD)">
+        Adicionar
+      </button>
+    </div>
+  </div>
+
+  <div class="w-100">
+    <table class="table table-bordered">
       <thead>
         <tr>
           <th>Usuario</th>
@@ -21,12 +30,15 @@
           <td>{{ task.value }}</td>
           <td>{{ task.isPayed }}</td>
           <td>
-            <button class="btn btn-primary">Editar</button>
-            <button class="btn btn-danger">Excluir</button>
+            <button type="button" class="btn btn-primary" (click)="openModalHandleTask(TaskModalTypeEnum.EDIT, task)">
+              Editar
+            </button>
+            <button class="btn btn-danger" (click)="deleteTask(task.id)">Excluir</button>
           </td>
-
         </tr>
       </tbody>
     </table>
   </div>
+  <app-task-modal #taskModalSelector/>
+  <app-delete-payment-modal #deletePaymentModalSelector/>
 </main>

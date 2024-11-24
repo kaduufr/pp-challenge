@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ApiService} from '../../shared/services/api/api.service';
 import {map, Observable} from 'rxjs';
 import {ITask} from '../../shared/interfaces/task';
-
+import {TaskDTO} from '../../core/DTO/taskDTO';
 
 type TaskResponseType = {
   id: number;
@@ -16,7 +16,13 @@ type TaskResponseType = {
 }
 
 type GetTaskListResponseType = {
-
+  data: TaskResponseType[];
+  total: number;
+  first: number;
+  prev: number;
+  last: number;
+  pages: number;
+  items: number;
 }
 
 
@@ -28,10 +34,11 @@ export class DashboardService {
   constructor(private apiService: ApiService) {
   }
 
-  getTaskList(page: number = 1): Observable<ITask[]> {
-    return this.apiService.get<TaskResponseType[]>(`/tasks?_page=${page}`).pipe(
-      map((tasks) => {
-        const taskList: ITask[] = tasks.map((task) => {
+  getTaskList(page: number = 1): Observable<TaskDTO[]> {
+    return this.apiService.get<GetTaskListResponseType>(`/tasks?_page=${page}`).pipe(
+      map((response: GetTaskListResponseType) => {
+        const tasks: TaskResponseType[] = response.data;
+        const taskList: TaskDTO[] = tasks.map((task: TaskResponseType) => {
           return {
             id: task.id,
             name: task.name,
@@ -45,5 +52,9 @@ export class DashboardService {
         })
         return taskList
       }));
+  }
+
+  deleteTask(id: number): Observable<void> {
+    return this.apiService.delete<void>(`/tasks/${id}`);
   }
 }
