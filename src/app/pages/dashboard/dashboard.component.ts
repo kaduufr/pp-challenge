@@ -11,6 +11,14 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {LoadingComponent} from '../../shared/loading/loading.component';
 import moment from 'moment';
 
+type SortStateType = {
+  name: boolean;
+  title: boolean;
+  date: boolean;
+  value: boolean;
+  isPayed: boolean;
+}
+
 @Component({
   selector: 'app-dashboard',
   imports: [TopBarComponent, NgForOf, TaskModalComponent, DeletePaymentModalComponent, FormsModule, ReactiveFormsModule, LoadingComponent, NgIf, CurrencyPipe],
@@ -29,18 +37,31 @@ export class DashboardComponent {
   @ViewChild("taskModalSelector") taskModal!: TaskModalComponent
   @ViewChild("deletePaymentModalSelector") deletePaymentModal!: DeletePaymentModalComponent
   searchForm!: FormGroup
+  private pagination: TaskDTO[] = [];
+  sortState: SortStateType = {
+    name: false,
+    title: false,
+    date: false,
+    value: false,
+    isPayed: false,
+  };
+  actualPage: number = 1;
 
   constructor(private dashboardService: DashboardService) {
   }
 
   ngOnInit() {
-    this.getTaskList()
+    this.getTaskList(this.actualPage)
     this.searchForm = new FormGroup({
       username: new FormControl('')
     })
   }
 
-  getTaskList(): void {
+  get username(): string {
+    return this.searchForm.get('username')?.value
+  }
+
+  getTaskList(page: number = 1): void {
     this.isLoading = true
     this.dashboardService.getPaymentList()
       .pipe(finalize(() => this.isLoading = false))
@@ -54,10 +75,6 @@ export class DashboardComponent {
           this.error = 'Erro ao carregar pagamentos'
         }
       })
-  }
-
-  get username(): string {
-    return this.searchForm.get('username')?.value
   }
 
   openModalHandlePayment(type: TaskModalTypeEnum = TaskModalTypeEnum.ADD, task?: TaskDTO): void {
@@ -110,6 +127,51 @@ export class DashboardComponent {
           this.error = 'Erro ao atualizar pagamento'
         }
       })
+  }
+
+  // organizer(property: string) {
+  //   if (property !== 'date') {
+  //     this.pagination = this.sortingPage.textAndValue(property);
+  //   } else {
+  //     this.pagination = this.sortingPage.date(property);
+  //   }
+  // }
+  //
+  // sortingPage = {
+  //   textAndValue: (property: string) => {
+  //     this.sortState[property] = !this.sortState[property] as string;
+  //     if (this.sortState[property]) {
+  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO): number => {
+  //         if (a[property] > b[property]) {
+  //           return 1;
+  //         }
+  //         return -1;
+  //       });
+  //     } else {
+  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO): number => {
+  //         if (a[property] < b[property]) {
+  //           return 1;
+  //         }
+  //         return -1;
+  //       });
+  //     }
+  //   },
+  //   date: (property: string): TaskDTO[] => {
+  //     this.sortState[property] = !this.sortState[property];
+  //     if (this.sortState[property]) {
+  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO) => {
+  //         return new Date(a.date).getTime() - new Date(b.date).getTime();
+  //       });
+  //     } else {
+  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO) => {
+  //         return new Date(b.date).getTime() - new Date(a.date).getTime();
+  //       });
+  //     }
+  //   }
+  // };
+
+  handleDeletePaymentEvent(_payment: TaskDTO) {
+    this.getTaskList(this.actualPage)
   }
 
 }

@@ -89,7 +89,7 @@
     </table>
   </div>
   <app-task-modal #taskModalSelector/>
-  <app-delete-payment-modal #deletePaymentModalSelector/>
+  <app-delete-payment-modal #deletePaymentModalSelector (deletePaymentEvent)="handleDeletePaymentEvent($event)"/>
   <div class="w-100 d-flex justify-content-center">
     <app-loading *ngIf="isLoading"/>
   </div>

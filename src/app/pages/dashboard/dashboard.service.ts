@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from '../../shared/services/api/api.service';
 import {map, Observable} from 'rxjs';
-import {ITask} from '../../shared/interfaces/task';
 import {TaskDTO} from '../../core/DTO/taskDTO';
 
 type TaskResponseType = {
@@ -54,7 +53,7 @@ export class DashboardService {
       }));
   }
 
-  deleteTask(id: number): Observable<void> {
+  deletePayment(id: number): Observable<void> {
     return this.apiService.delete<void>(`/tasks/${id}`);
   }
 
