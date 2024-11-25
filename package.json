@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:pp-challenge": "node dist/pp-challenge/server/server.mjs",
-    "mock": "npx json-server --watch mock/db.json --port 3030"
+    "mock": "npx json-server --watch mock/db.json --port 3030",
+    "cy:open": "cypress open"
   },
   "private": true,
   "dependencies": {
