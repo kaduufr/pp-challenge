@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from '../../shared/services/api/api.service';
-import {map, Observable} from 'rxjs';
+import {catchError, map, Observable, throwError} from 'rxjs';
 import {TaskDTO} from '../../core/DTO/taskDTO';
+import {HttpErrorResponse} from '@angular/common/http';
 
 type TaskResponseType = {
   id: number;
@@ -95,5 +96,25 @@ export class DashboardService {
   updatePaymentStatus(payment: TaskDTO): Observable<TaskDTO> {
     const paymentUpdated = Object.assign({}, payment, {isPayed: !payment.isPayed});
     return this.apiService.put<TaskDTO>(`/tasks/${paymentUpdated.id}`, paymentUpdated);
+  }
+
+  editPayment(payment: TaskDTO): Observable<TaskDTO> {
+    return this.apiService.put<TaskDTO>(`/tasks/${payment.id}`, payment)
+      .pipe(
+        catchError((_error: HttpErrorResponse) => {
+          const statusCode = _error.status;
+          return throwError(`E${statusCode}: Erro ao editar pagamento`);
+        })
+      )
+  }
+
+  addPayment(payment: Omit<TaskDTO, 'id'>): Observable<TaskDTO> {
+    return this.apiService.post<TaskDTO>('/tasks', payment)
+      .pipe(
+        catchError((_error: HttpErrorResponse) => {
+          const statusCode = _error.status;
+          return throwError(`E${statusCode}: Erro ao adicionar pagamento`);
+        })
+      )
   }
 }

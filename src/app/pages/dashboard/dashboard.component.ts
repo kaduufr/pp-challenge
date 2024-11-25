@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {TopBarComponent} from '../../shared/top-bar/top-bar.component';
 import {DashboardService} from './dashboard.service';
-import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
+import {CurrencyPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {TaskDTO} from '../../core/DTO/taskDTO';
 import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
 import {TaskModalTypeEnum} from '../../shared/task-modal/task-modal.enum';
@@ -32,7 +32,8 @@ type SortStateType = {
     LoadingComponent,
     NgIf,
     CurrencyPipe,
-    PaginatorComponent
+    PaginatorComponent,
+    NgOptimizedImage
   ],
   templateUrl: './dashboard.component.html',
   standalone: true,
@@ -144,7 +145,6 @@ export class DashboardComponent {
   }
 
   onCheckPaymentChange(event: Event, payment: TaskDTO) {
-    const checkbox = event.target as HTMLInputElement
     this.dashboardService.updatePaymentStatus(payment)
       .subscribe({
         next: () => {
@@ -191,11 +191,19 @@ export class DashboardComponent {
 
   changePage(page: number) {
     this.getTaskList(page)
-    console.log(this.pagination)
   }
 
   changeItemsPerPage(event: Event) {
     this.pagination.itemsPerPage = parseInt((event.target as HTMLSelectElement).value, 10)
     this.getTaskList(this.pagination.currentPage)
+  }
+
+  handlePaymentEdited(payment: TaskDTO) {
+    this.taskList = this.taskList.map((task: TaskDTO): TaskDTO => {
+      if (task.id === payment.id) {
+        return payment
+      }
+      return task
+    })
   }
 }

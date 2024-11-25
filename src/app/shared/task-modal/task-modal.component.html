@@ -1,94 +1,143 @@
 <div
-  class="modal fade"
+  class="modal fade task-modal__container"
   id="taskModalActionsModal"
   tabindex="-1"
-  aria-labelledby="exampleModalLabel"
+  aria-labelledby="paymentsModalTitle"
   #taskModalSelector
 >
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-danger" id="exampleModalLabel">
-          {{ type === TaskModalTypeEnum.EDIT ? 'Editar' : 'Adicionar' }} Pagamento
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                aria-label="Close"></button>
+      <div class="modal-header flex-column align-items-stretch">
+        <div class="d-inline-flex w-full justify-content-between align-items-center">
+          <h5 class="modal-title text-black" id="paymentsModalTitle">
+            {{ type === TaskModalTypeEnum.EDIT ? 'Editar' : 'Adicionar' }} Pagamento
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <ng-container *ngIf="!!successMessage">
+          <div class="alert alert-success mt-1" role="alert">
+            {{successMessage}}
+          </div>
+        </ng-container>
       </div>
       <div class="modal-body container p-4">
-          <form [formGroup]="form">
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="username"
-                    placeholder="Usuário"
-                    formControlName="username"
-                    required
-                  />
-                  <label for="username">Usuário</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="value"
-                    placeholder="Valor"
-                    formControlName="value"
-                    required
-                  />
-                  <label for="value">Valor</label>
-                </div>
-              </div>
+        <form [formGroup]="form">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <fieldset class="form-floating fs-form__group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Usuário"
+                  formControlName="username"
+                  required
+                />
+                <label for="username">Usuário</label>
+              </fieldset>
             </div>
+            <div class="col-md-6">
+              <fieldset class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Nome"
+                  formControlName="name"
+                  required
+                />
+                <label for="username">Nome</label>
+              </fieldset>
+            </div>
+          </div>
 
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="date"
-                    placeholder="Data"
-                    formControlName="date"
-                    required
-                  />
-                  <label for="date">Data</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    placeholder="Título"
-                    formControlName="title"
-                    required
-                  />
-                  <label for="title">Título</label>
-                </div>
-              </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <fieldset class="form-floating fs-form__group">
+                <input
+                  type="date"
+                  class="form-control"
+                  id="date"
+                  placeholder="Data"
+                  formControlName="date"
+                  required
+                />
+                <label for="date">Data</label>
+              </fieldset>
             </div>
-          </form>
-       </div>
-        <div class="modal-footer d-flex justify-content-between mt-4">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="close()"
-          >
-            Cancelar
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            [disabled]="form.invalid"
-            (click)="handleAction()"
-          >
+            <div class="col-md-6">
+              <fieldset class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  placeholder="Título"
+                  formControlName="title"
+                  required
+                />
+                <label for="title">Título</label>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <fieldset class="form-floating fs-form__group">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="value"
+                  placeholder="Valor"
+                  formControlName="value"
+                  required
+                />
+                <label for="value">Valor</label>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="imageUrl"
+                  placeholder="Url da Imagem"
+                  formControlName="image"
+                  required
+                />
+                <label for="value">URL da Imagem</label>
+              </fieldset>
+            </div>
+          </div>
+        </form>
+
+        <ng-container *ngIf="!!error">
+          <div class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+        </ng-container>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-between mt-4">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="close()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary task-modal__btn-save"
+          [disabled]="form.invalid"
+          (click)="handleAction()"
+        >
+          <ng-container *ngIf="isLoading; else buttonText">
+            Salvando
+            <app-loading size="1"/>
+          </ng-container>
+
+          <ng-template #buttonText>
             <ng-container *ngIf="type === TaskModalTypeEnum.EDIT; else addTask">
               Editar
             </ng-container>
@@ -96,8 +145,9 @@
             <ng-template #addTask>
               Adicionar
             </ng-template>
-          </button>
-        </div>
+          </ng-template>
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 export class TaskDTO {
-  id: number = -1
+  id: number = -1;
   name: string = '';
   username: string = '';
   title: string = '';
@@ -8,5 +8,7 @@ export class TaskDTO {
   image: string = '';
   isPayed: boolean = false;
 
-  constructor() {}
+  constructor(data?: Partial<TaskDTO>) {
+    Object.assign<TaskDTO, Partial<TaskDTO> | undefined>(this, data);
+  }
 }

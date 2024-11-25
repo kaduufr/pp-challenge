@@ -1,16 +1,20 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 import {TaskModalTypeEnum} from './task-modal.enum';
 import {Modal} from 'bootstrap';
 import {TaskDTO} from '../../core/DTO/taskDTO';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import moment from 'moment';
+import {DashboardService} from '../../pages/dashboard/dashboard.service';
+import {LoadingComponent} from '../loading/loading.component';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-task-modal',
   imports: [
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    LoadingComponent
   ],
   standalone: true,
   templateUrl: './task-modal.component.html',
@@ -24,8 +28,13 @@ export class TaskModalComponent {
   form!: FormGroup
   protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
   modal!: Modal
+  isLoading: boolean = false
+  error: string = ''
+  successMessage: string = ''
+  @Output() onPaymentAdded = new EventEmitter<TaskDTO>()
+  @Output() onPaymentEdited = new EventEmitter<TaskDTO>()
 
-  constructor() {}
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -33,13 +42,14 @@ export class TaskModalComponent {
       title: new FormControl('', [Validators.required, Validators.minLength(3)]),
       value: new FormControl('', [Validators.required, Validators.min(0)]),
       date: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      image: new FormControl('', []),
     })
   }
 
-  ngOnViewInit() {
+  ngAfterViewInit() {
     this.taskModalActionsModal.nativeElement.addEventListener('hidden.bs.modal', () => {
-      this.form.reset()
-      this.task = undefined
+      this.resetForm()
     })
   }
 
@@ -51,17 +61,18 @@ export class TaskModalComponent {
         username: task.username || '',
         title: task.title || '',
         value: task.value || 0,
-        date: moment(task.date).format('YYYY-MM-DD') || ''
+        date: moment(task.date).format('YYYY-MM-DD') || '',
+        name: task.name || '',
+        image: task.image || '',
       })
     }
     this.modal.show()
   }
 
   close(): void {
-    console.log('Close')
-    this.form.reset()
-    this.task = undefined
+    this.resetForm()
     this.modal.hide()
+
   }
 
   handleAction(): void {
@@ -72,17 +83,54 @@ export class TaskModalComponent {
     this.editTask()
   }
 
+  resetForm(): void {
+    this.form.reset();
+    this.task = undefined;
+    this.error = '';
+    this.successMessage = '';
+  }
+
   addTask(): void {
-    // Add task logic
+    this.isLoading = true
+    this.error = ''
+    this.successMessage = ''
+    const {id,...newPayment} = new TaskDTO(this.form.value)
+    newPayment.date = moment(newPayment.date).toDate()
+    this.dashboardService.addPayment(newPayment)
+      .pipe(finalize(() => {this.isLoading = false}))
+      .subscribe({
+        next: (payment: TaskDTO) => {
+          this.successMessage = 'Pagamento adicionado com sucesso'
+          setTimeout(() => {
+            this.onPaymentAdded.emit(payment)
+            this.close()
+          }, 3000)
+        },
+        error: (error: string) => {
+          this.error = error
+        }
+      })
   }
 
   editTask(): void {
-    // Edit task logic
-  }
-
-  ngOnDestroy() {
-    console.log('Destroy')
-    this.modal.dispose()
+    this.isLoading = true
+    this.error = ''
+    this.successMessage = ''
+    const paymentClone = {...this.task, ...this.form.value}
+    this.dashboardService.editPayment(paymentClone)
+      .pipe(finalize(() => {this.isLoading = false}))
+      .subscribe({
+        next: (paymentUpdated: TaskDTO) => {
+          this.successMessage = 'Pagamento editado com sucesso'
+          setTimeout(() => {
+            this.onPaymentEdited.emit(paymentUpdated)
+            this.close()
+          }, 3000)
+        },
+        error: (error: string) => {
+          this.error = error
+        }
+      })
   }
 
 }

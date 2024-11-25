@@ -55,6 +55,8 @@
       <table class="table">
         <thead>
         <tr class="table-tr__head">
+          <th>
+          </th>
           <th (click)="organizer('username')">
             <span>Usuario</span>
             <i class="bi bi-arrow-down-up ms-2"></i>
@@ -80,12 +82,18 @@
         </thead>
         <tbody>
         <tr *ngFor="let task of taskList">
+          <td>
+            <ng-container *ngIf="task.image">
+              <img [src]="task.image" width="32px" height="32px" alt="Imagem do usuario do pagamento"
+                   style="border-radius: 25px;">
+            </ng-container>
+          </td>
           <td>{{ task.username }}</td>
           <td>{{ task.title }}</td>
           <td>{{ moment(task.date).format('DD/MMM/YYYY hh:mm') }}</td>
           <td>{{ task.value | currency: 'BRL':'symbol' }}</td>
           <td>
-            <div class="form-check w-100 d-inline-flex justify-content-center">
+            <div class="form-check w-100 d-inline-flex ">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -124,10 +132,11 @@
       <ng-container *ngIf="!isLoading">
         <div class="d-inline-flex align-items-center me-4">
           <label for="totalItemsToShow" class="me-2">Exibir</label>
-          <select id="totalItemsToShow" (change)="changeItemsPerPage($event)" class="form-select" aria-label="Quantidade de pagamentos à serem exibidos">
+          <select id="totalItemsToShow" (change)="changeItemsPerPage($event)" class="form-select"
+                  aria-label="Quantidade de pagamentos à serem exibidos">
             <ng-container *ngFor="let item of rowsNumber">
               <option [value]="item" [selected]="item === pagination.itemsPerPage"
-                      >{{ item }}
+              >{{ item }}
               </option>
             </ng-container>
           </select>
@@ -144,7 +153,7 @@
     </div>
   </div>
 
-  <app-task-modal #taskModalSelector/>
+  <app-task-modal #taskModalSelector (onPaymentEdited)="handlePaymentEdited($event)"/>
   <app-delete-payment-modal #deletePaymentModalSelector (deletePaymentEvent)="handleDeletePaymentEvent($event)"/>
 
 </main>

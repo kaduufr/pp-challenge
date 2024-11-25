@@ -1,0 +1,14 @@
+.task-modal__container {
+  @media screen and (max-width: 768px) {
+    .fs-form__group {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .task-modal__btn-save[disabled] {
+    cursor: not-allowed;
+    background-color: #ccc !important;
+    outline: none;
+    border-color: transparent;
+  }
+}
