@@ -1,0 +1,68 @@
+<div class="d-flex h-100 justify-content-center align-items-center login-form_page">
+  <div class="d-flex flex-column div-form-centered m-4 py-4">
+    <h1 class="text-left" id="login-title">Pay<span>Me</span></h1>
+    <h2 class="text-left" id="welcome-message">Bem vindo de volta!</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" aria-labelledby="login-title">
+      <fieldset class="form-floating mb-4 position-relative">
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="name@example.com"
+          aria-required="true"
+          formControlName="email"
+          aria-describedby="input-email-error"
+        />
+        <label for="email">Email</label>
+        <small
+          *ngIf="email?.touched && email?.dirty && email?.invalid"
+          id="input-email-error"
+          class="text-danger fs-6 ms-2 mt-1">
+          {{ getErrorMessage('email') }}
+        </small>
+      </fieldset>
+      <fieldset class="form-floating mb-4 position-relative">
+        <input
+          [type]="showPassword ? 'text': 'password' "
+          class="form-control"
+          id="password"
+          placeholder="Password"
+          formControlName="password"
+          aria-required="true"
+          aria-describedby="input-password-error"
+        />
+        <label for="password">Senha</label>
+        <small
+          *ngIf="password?.touched && password?.dirty && password?.invalid"
+          id="input-password-error"
+          class="text-danger fs-6 ms-2 mt-1">
+          {{ getErrorMessage('password') }}
+        </small>
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm position-absolute end-0 top-0 m-2 mt-3 form-btn__show-password"
+          (click)="togglePassword()"
+          aria-label="Mostrar ou ocultar senha"
+        >
+          <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+        </button>
+      </fieldset>
+      <button
+        type="submit"
+        class="btn btn-primary w-100 btn-submit-login"
+        [disabled]="form.invalid"
+      >
+        <ng-container *ngIf="loading; else btnContent">
+          <app-loading/>
+        </ng-container>
+        <ng-template #btnContent>
+          Acessar
+        </ng-template>
+      </button>
+    </form>
+    <div *ngIf="error" class="text-danger mt-3" role="alert">
+      {{ error }}
+    </div>
+  </div>
+</div>

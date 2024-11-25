@@ -1,35 +1,27 @@
+.login-page {
+  .columnLeft {
+    width: 40%;
+    height: 100vh;
+    background-color: #ececec;
+  }
+  .columnRight {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.div-form-centered {
-  width: 100%;
-  border-radius: 8px;
-  padding: 0.8rem;
-}
-//
-//@include media-breakpoint-up(sm) {
-//  .div-form-centered {
-//    width: 70%;
-//  }
-//}
-//
-//@include media-breakpoint-up(md) {
-//  .div-form-centered {
-//    width: 60%;
-//  }
-//}
-//
-//@include media-breakpoint-up(md) {
-//  .div-form-centered {
-//    width: 45%;
-//    max-width: 500px;
-//  }
-//}
+  .login_img_size {
+    width: 75%;
+    height: 45%;
+  }
 
-.btn-submit-login {
-  height: 48px;
-
-}
-.btn-submit-login[disabled] {
-  cursor: not-allowed !important;
-  background-color: #3a3a3a ;
-  border: none;
+  @media screen and (max-width: 992px) {
+    .columnRight {
+      display: none;
+    }
+    .columnLeft {
+      width: 100%;
+    }
+  }
 }
