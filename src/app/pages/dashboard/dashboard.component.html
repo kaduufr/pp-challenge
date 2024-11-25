@@ -14,11 +14,22 @@
             aria-label="Pesquisar usuario"
             aria-description="Digite aqui o usuario que voce quer pesquisar"/>
           <span>
-          <i class="bi bi-search"></i>
+            <ng-container *ngIf="filterApplied; else searchIcon">
+              <button
+                type="reset"
+                class="btn btn-link p-0"
+                aria-label="Botão para limpar barra de busca"
+                (click)="clearSearch()">
+                <i class="bi bi-x-lg text-danger"></i>
+              </button>
+            </ng-container>
+            <ng-template #searchIcon>
+              <i class="bi bi-search"></i>
+            </ng-template>
         </span>
         </fieldset>
       </form>
-      <button class="align-items-center d-inline-flex fs-btn_filter" (click)="searchPayment(username)">
+      <button class="align-items-center d-inline-flex fs-btn__filter" (click)="searchPayment(username)">
         <i class="bi bi-filter"></i>
         <span>Filtrar</span>
       </button>

@@ -36,6 +36,7 @@ export class DashboardComponent {
   @ViewChild("taskModalSelector") taskModal!: TaskModalComponent
   @ViewChild("deletePaymentModalSelector") deletePaymentModal!: DeletePaymentModalComponent
   searchForm!: FormGroup
+  filterApplied: boolean = false;
   private pagination: TaskDTO[] = [];
   sortState: SortStateType = {
     username: false,
@@ -91,14 +92,14 @@ export class DashboardComponent {
   searchPayment(username: string) {
     this.isLoading = true
     if (!username || username === '') {
-      this.getTaskList()
-      return
+      this.clearSearch()
     }
     this.dashboardService.getPaymentByUsername(username)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (tasks) => {
           this.taskList = tasks
+          this.filterApplied = true
         },
         error: (error) => {
           console.error(error)
@@ -107,9 +108,10 @@ export class DashboardComponent {
       })
   }
 
-  // todo: Trocar o icone pra um botão de limpar
   clearSearch() {
     this.searchForm.reset()
+    this.filterApplied = false
+    this.getTaskList(this.actualPage)
   }
 
   onCheckPaymentChange(event: Event, payment: TaskDTO) {
