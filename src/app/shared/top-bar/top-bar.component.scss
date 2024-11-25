@@ -1,3 +1,39 @@
-.top-bar-container {
-  border-bottom: 1px solid #878787;
+.top-bar_container {
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+
+    span {
+      font-weight: 300;
+      color: white;
+    }
+  }
+
+  nav {
+    background-color: #002d69;
+
+    button.nav-btn__sair {
+      color: white;
+      span {
+        font-size: 1.1rem;
+        font-weight: 300;
+      }
+      i {
+        margin-left: 0.5rem;
+        font-size: 20px;
+      }
+    }
+
+    button.nav-btn__user {
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
 }
