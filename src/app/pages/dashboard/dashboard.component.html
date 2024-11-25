@@ -1,19 +1,25 @@
 <app-top-bar/>
 
 <main class="dashboard__container">
-  <div class="w-100 d-inline-flex justify-content-between px-5 my-4 dashboard-filter__container">
-    <div class="d-inline-flex align-items-center me-auto div-form__fieldset">
-      <form [formGroup]="searchForm" (ngSubmit)="searchPayment(username)">
-        <fieldset class="d-inline-flex align-items-center fs-input__search">
-          <input
-            type="text"
-            class="form-control"
-            name="username"
-            formControlName="username"
-            placeholder="Pesquisar usuario"
-            aria-label="Pesquisar usuario"
-            aria-description="Digite aqui o usuario que voce quer pesquisar"/>
-          <span>
+
+  <div class="container pt-5 pb-3">
+    <h2>Meus Pagamentos</h2>
+  </div>
+
+  <div class="dashboard-payments__container mx-5">
+    <div class="w-100 d-inline-flex justify-content-between px-5 my-4 dashboard-filter__container">
+      <div class="d-inline-flex align-items-center me-auto div-form__fieldset">
+        <form [formGroup]="searchForm" (ngSubmit)="searchPayment(username)">
+          <fieldset class="d-inline-flex align-items-center fs-input__search">
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              formControlName="username"
+              placeholder="Pesquisar usuario"
+              aria-label="Pesquisar usuario"
+              aria-description="Digite aqui o usuario que voce quer pesquisar"/>
+            <span>
             <ng-container *ngIf="filterApplied; else searchIcon">
               <button
                 type="reset"
@@ -27,96 +33,118 @@
               <i class="bi bi-search"></i>
             </ng-template>
         </span>
-        </fieldset>
-      </form>
-      <button class="align-items-center d-inline-flex fs-btn__filter" (click)="searchPayment(username)">
-        <i class="bi bi-filter"></i>
-        <span>Filtrar</span>
-      </button>
-    </div>
-    <div>
-      <button class="btn btn-primary d-inline-flex align-items-center form-button__add"
-              (click)="openModalHandlePayment(TaskModalTypeEnum.ADD)">
-        <i class="bi bi-plus-circle me-2"></i>
-        <span>
+          </fieldset>
+        </form>
+        <button class="align-items-center d-inline-flex fs-btn__filter" (click)="searchPayment(username)">
+          <i class="bi bi-filter"></i>
+          <span>Filtrar</span>
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-primary d-inline-flex align-items-center form-button__add"
+                (click)="openModalHandlePayment(TaskModalTypeEnum.ADD)">
+          <i class="bi bi-plus-circle me-2"></i>
+          <span>
           Novo pagamento
         </span>
-      </button>
+        </button>
+      </div>
+    </div>
+
+    <div class="dashboard-table__div table-responsive">
+      <table class="table">
+        <thead>
+        <tr class="table-tr__head">
+          <th (click)="organizer('username')">
+            <span>Usuario</span>
+            <i class="bi bi-arrow-down-up ms-2"></i>
+          </th>
+          <th (click)="organizer('title')">
+            <span>Titulo</span>
+            <i class="bi bi-arrow-down-up ms-2"></i>
+          </th>
+          <th (click)="organizer('date')">
+            <span>Data</span>
+            <i class="bi bi-arrow-down-up ms-2"></i>
+          </th>
+          <th (click)="organizer('value')">
+            <span>Valor</span>
+            <i class="bi bi-arrow-down-up ms-2"></i>
+          </th>
+          <th (click)="organizer('isPayed')">
+            <span>Pago</span>
+            <i class="bi bi-arrow-down-up ms-1"></i>
+          </th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let task of taskList">
+          <td>{{ task.username }}</td>
+          <td>{{ task.title }}</td>
+          <td>{{ moment(task.date).format('DD/MMM/YYYY hh:mm') }}</td>
+          <td>{{ task.value | currency: 'BRL':'symbol' }}</td>
+          <td>
+            <div class="form-check w-100 d-inline-flex justify-content-center">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [checked]="task.isPayed"
+                (change)="onCheckPaymentChange($event, task)"
+                id="flexCheckDefault">
+            </div>
+          </td>
+          <td>
+            <div class="w-100 d-inline-flex justify-content-center">
+              <button
+                type="button"
+                class="table-btn__edit"
+                title="Editar pagamento"
+                aria-label="Editar pagamento"
+                (click)="openModalHandlePayment(TaskModalTypeEnum.EDIT, task)"
+              >
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button
+                class="table-btn__delete"
+                title="Deletar pagamento"
+                type="button"
+                aria-label="Deletar pagamento"
+                (click)="openModalDeletePayment(task)"
+              >
+                <i class="bi bi-x-circle"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="w-100 container d-flex justify-content-end align-items-center">
+      <ng-container *ngIf="!isLoading">
+        <div class="d-inline-flex align-items-center me-4">
+          <label for="totalItemsToShow" class="me-2">Exibir</label>
+          <select id="totalItemsToShow" (change)="changeItemsPerPage($event)" class="form-select" aria-label="Quantidade de pagamentos à serem exibidos">
+            <ng-container *ngFor="let item of rowsNumber">
+              <option [value]="item" [selected]="item === pagination.itemsPerPage"
+                      >{{ item }}
+              </option>
+            </ng-container>
+          </select>
+        </div>
+      </ng-container>
+      <app-paginator
+        [pagination]="pagination"
+        (changePageEvent)="changePage($event)"
+      ></app-paginator>
+    </div>
+
+    <div class="w-100 d-flex justify-content-center">
+      <app-loading *ngIf="isLoading"/>
     </div>
   </div>
 
-  <div class="dashboard-table__div">
-    <table class="table">
-      <thead>
-      <tr class="table-tr__head">
-        <th (click)="organizer('username')">
-          <span>Usuario</span>
-          <i class="bi bi-arrow-down-up ms-2"></i>
-        </th>
-        <th (click)="organizer('title')">
-          <span>Titulo</span>
-          <i class="bi bi-arrow-down-up ms-2"></i>
-        </th>
-        <th (click)="organizer('date')">
-          <span>Data</span>
-          <i class="bi bi-arrow-down-up ms-2"></i>
-        </th>
-        <th (click)="organizer('value')">
-          <span>Valor</span>
-          <i class="bi bi-arrow-down-up ms-2"></i>
-        </th>
-        <th (click)="organizer('isPayed')">
-          <span>Pago</span>
-          <i class="bi bi-arrow-down-up ms-1"></i>
-        </th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let task of taskList">
-        <td>{{ task.username }}</td>
-        <td>{{ task.title }}</td>
-        <td>{{ moment(task.date).format('DD/MMM/YYYY hh:mm') }}</td>
-        <td>{{ task.value | currency: 'BRL':'symbol' }}</td>
-        <td>
-          <div class="form-check w-100 d-inline-flex justify-content-center">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              [checked]="task.isPayed"
-              (change)="onCheckPaymentChange($event, task)"
-              id="flexCheckDefault">
-          </div>
-        </td>
-        <td>
-          <div class=" w-100 d-inline-flex justify-content-center">
-            <button
-              type="button"
-              class="table-btn__edit"
-              title="Editar pagamento"
-              aria-label="Editar pagamento"
-              (click)="openModalHandlePayment(TaskModalTypeEnum.EDIT, task)"
-            >
-              <i class="bi bi-pencil-fill"></i>
-            </button>
-            <button
-              class="table-btn__delete"
-              title="Deletar pagamento"
-              type="button"
-              aria-label="Deletar pagamento"
-              (click)="openModalDeletePayment(task)"
-            >
-              <i class="bi bi-x-circle"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
   <app-task-modal #taskModalSelector/>
   <app-delete-payment-modal #deletePaymentModalSelector (deletePaymentEvent)="handleDeletePaymentEvent($event)"/>
-  <div class="w-100 d-flex justify-content-center">
-    <app-loading *ngIf="isLoading"/>
-  </div>
+
 </main>

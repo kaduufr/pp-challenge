@@ -1,4 +1,10 @@
 .dashboard__container {
+
+  background-color: #e8e8e8;
+  padding-top: 3rem;
+  min-height: 100vh;
+  height: 100%;
+
   .fs-input__search {
     position: relative;
     width: 320px;
@@ -22,6 +28,13 @@
         font-size: 1.2rem;
       }
     }
+  }
+
+  .dashboard-payments__container {
+    background-color: white ;
+    min-height: 50%;
+    border-radius: 20px;
+    padding-bottom: 2rem;
   }
 
   .fs-btn__filter {

@@ -16,12 +16,21 @@ type TaskResponseType = {
 
 type GetTaskListResponseType = {
   data: TaskResponseType[];
-  total: number;
   first: number;
   prev: number;
+  next: number;
   last: number;
   pages: number;
   items: number;
+}
+
+type GetPaymentListResponseType = {
+  data: TaskDTO[];
+  _pagination: {
+    currentPage: number;
+    totalItems: number;
+    totalPages: number;
+  }
 }
 
 
@@ -33,12 +42,11 @@ export class DashboardService {
   constructor(private apiService: ApiService) {
   }
 
-  getPaymentList(page: number = 1): Observable<TaskDTO[]> {
-    return this.apiService.get<GetTaskListResponseType>(`/tasks?_page=${page}`).pipe(
+  getPaymentList(page: number = 1, limit: number = 10): Observable<GetPaymentListResponseType> {
+    return this.apiService.get<GetTaskListResponseType>(`/tasks?_page=${page}&_per_page=${limit}`).pipe(
       map((response: GetTaskListResponseType) => {
         const tasks: TaskResponseType[] = response.data;
-        const taskList: TaskDTO[] = tasks.map((task: TaskResponseType) => {
-          return {
+        const taskList: TaskDTO[] = tasks.map((task: TaskResponseType) => new TaskDTO({
             id: task.id,
             name: task.name,
             username: task.username,
@@ -47,9 +55,15 @@ export class DashboardService {
             date: new Date(task.date),
             image: task.image,
             isPayed: task.isPayed
+        }))
+        return {
+          data: taskList,
+          _pagination: {
+            currentPage: response?.first || 1,
+            totalItems: response?.items || 0,
+            totalPages: response?.pages || 0
           }
-        })
-        return taskList
+        }
       }));
   }
 

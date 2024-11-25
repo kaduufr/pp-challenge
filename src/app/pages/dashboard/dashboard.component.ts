@@ -10,6 +10,7 @@ import {finalize} from 'rxjs';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LoadingComponent} from '../../shared/loading/loading.component';
 import moment from 'moment';
+import {PaginatorComponent} from '../../shared/paginator/paginator.component';
 
 type SortStateType = {
   username: boolean;
@@ -21,7 +22,18 @@ type SortStateType = {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [TopBarComponent, NgForOf, TaskModalComponent, DeletePaymentModalComponent, FormsModule, ReactiveFormsModule, LoadingComponent, NgIf, CurrencyPipe],
+  imports: [
+    TopBarComponent,
+    NgForOf,
+    TaskModalComponent,
+    DeletePaymentModalComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    LoadingComponent,
+    NgIf,
+    CurrencyPipe,
+    PaginatorComponent
+  ],
   templateUrl: './dashboard.component.html',
   standalone: true,
   styleUrl: './dashboard.component.scss'
@@ -33,11 +45,11 @@ export class DashboardComponent {
   protected readonly moment = moment;
   error: string = '';
   taskList: TaskDTO[] = [];
+  rowsNumber: number[] = [10, 15, 20, 25, 30];
   @ViewChild("taskModalSelector") taskModal!: TaskModalComponent
   @ViewChild("deletePaymentModalSelector") deletePaymentModal!: DeletePaymentModalComponent
   searchForm!: FormGroup
   filterApplied: boolean = false;
-  private pagination: TaskDTO[] = [];
   sortState: SortStateType = {
     username: false,
     title: false,
@@ -45,13 +57,24 @@ export class DashboardComponent {
     value: false,
     isPayed: false,
   };
-  actualPage: number = 1;
+  pagination: {
+    itemsPerPage: number;
+    currentPage: number;
+    totalItems: number;
+    totalPages: number;
+  }
 
   constructor(private dashboardService: DashboardService) {
+    this.pagination = {
+      currentPage: 1,
+      totalItems: 0,
+      totalPages: 0,
+      itemsPerPage: this.rowsNumber[0]
+    }
   }
 
   ngOnInit() {
-    this.getTaskList(this.actualPage)
+    this.getTaskList(this.pagination.currentPage)
     this.searchForm = new FormGroup({
       username: new FormControl('')
     })
@@ -63,11 +86,17 @@ export class DashboardComponent {
 
   getTaskList(page: number = 1): void {
     this.isLoading = true
-    this.dashboardService.getPaymentList()
+    this.dashboardService.getPaymentList(page, this.pagination.itemsPerPage)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
-        next: (tasks) => {
-          this.taskList = tasks
+        next: (response) => {
+          this.taskList = response.data
+          this.pagination = {
+            currentPage: page,
+            totalItems: response._pagination.totalItems,
+            totalPages: response._pagination.totalPages,
+            itemsPerPage: this.pagination.itemsPerPage
+          }
         },
         error: (error) => {
           console.error(error)
@@ -111,7 +140,7 @@ export class DashboardComponent {
   clearSearch() {
     this.searchForm.reset()
     this.filterApplied = false
-    this.getTaskList(this.actualPage)
+    this.getTaskList(this.pagination.currentPage)
   }
 
   onCheckPaymentChange(event: Event, payment: TaskDTO) {
@@ -133,11 +162,11 @@ export class DashboardComponent {
       [property]: !this.sortState[property]
     })
 
-    const ordering = (a: TaskDTO, b: TaskDTO) =>
+    const ordering = (first: TaskDTO, next: TaskDTO) =>
       isDate
-        ? new Date(a[property] as string).getTime() -
-        new Date(b[property] as string).getTime()
-        : a[property] > b[property]
+        ? new Date(first[property] as string).getTime() -
+        new Date(next[property] as string).getTime()
+        : first[property] > next[property]
           ? 1
           : -1;
 
@@ -157,7 +186,16 @@ export class DashboardComponent {
   }
 
   handleDeletePaymentEvent(_payment: TaskDTO) {
-    this.getTaskList(this.actualPage)
+    this.getTaskList(this.pagination.currentPage)
   }
 
+  changePage(page: number) {
+    this.getTaskList(page)
+    console.log(this.pagination)
+  }
+
+  changeItemsPerPage(event: Event) {
+    this.pagination.itemsPerPage = parseInt((event.target as HTMLSelectElement).value, 10)
+    this.getTaskList(this.pagination.currentPage)
+  }
 }
