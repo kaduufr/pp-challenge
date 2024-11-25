@@ -46,34 +46,6 @@ export class DashboardComponent {
   };
   actualPage: number = 1;
 
-  sortingPage = {
-    sort: (property: keyof SortStateType, isDate: boolean = false): TaskDTO[] => {
-      this.sortState = Object.assign({}, this.sortState, {
-        [property]: !this.sortState[property]
-      })
-
-      const ascending = (a: TaskDTO, b: TaskDTO) =>
-        isDate
-          ? new Date(a[property] as string).getTime() -
-          new Date(b[property] as string).getTime()
-          : a[property] > b[property]
-            ? 1
-            : -1;
-
-      const descending = (a: TaskDTO, b: TaskDTO) =>
-        isDate
-          ? (new Date(b[property] as string).getTime() -
-          new Date(a[property] as string).getTime())
-          : (a[property] < b[property])
-            ? 1
-            : -1;
-
-      return this.taskList.sort(
-        this.sortState[property] ? ascending : descending
-      );
-    },
-  };
-
   constructor(private dashboardService: DashboardService) {
   }
 
@@ -154,12 +126,32 @@ export class DashboardComponent {
       })
   }
 
+  sortingPage = (property: keyof SortStateType, isDate: boolean = false): TaskDTO[] => {
+    this.sortState = Object.assign({}, this.sortState, {
+      [property]: !this.sortState[property]
+    })
+
+    const ordering = (a: TaskDTO, b: TaskDTO) =>
+      isDate
+        ? new Date(a[property] as string).getTime() -
+        new Date(b[property] as string).getTime()
+        : a[property] > b[property]
+          ? 1
+          : -1;
+
+
+    return this.taskList.sort(
+      this.sortState[property] ?
+        ordering : (a, b) => ordering(a, b)
+    );
+  }
+
   organizer(property: keyof SortStateType) {
     if (property !== 'date') {
-      this.taskList = this.sortingPage.sort(property);
+      this.taskList = this.sortingPage(property);
       return
     }
-    this.taskList = this.sortingPage.sort(property, true);
+    this.taskList = this.sortingPage(property, true);
   }
 
   handleDeletePaymentEvent(_payment: TaskDTO) {
