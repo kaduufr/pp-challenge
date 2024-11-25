@@ -35,15 +35,30 @@
   </div>
 
   <div class="dashboard-table__div">
-    <table class="table table-bordered">
+    <table class="table">
       <thead>
-      <tr>
-        <th>Usuario</th>
-        <th>Titulo</th>
-        <th>Data</th>
-        <th>Valor</th>
-        <th>Pago</th>
-        <th>Ações</th>
+      <tr class="table-tr__head">
+        <th (click)="organizer('username')">
+          <span>Usuario</span>
+          <i class="bi bi-arrow-down-up ms-2"></i>
+        </th>
+        <th (click)="organizer('title')">
+          <span>Titulo</span>
+          <i class="bi bi-arrow-down-up ms-2"></i>
+        </th>
+        <th (click)="organizer('date')">
+          <span>Data</span>
+          <i class="bi bi-arrow-down-up ms-2"></i>
+        </th>
+        <th (click)="organizer('value')">
+          <span>Valor</span>
+          <i class="bi bi-arrow-down-up ms-2"></i>
+        </th>
+        <th (click)="organizer('isPayed')">
+          <span>Pago</span>
+          <i class="bi bi-arrow-down-up ms-1"></i>
+        </th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -51,7 +66,7 @@
         <td>{{ task.username }}</td>
         <td>{{ task.title }}</td>
         <td>{{ moment(task.date).format('DD/MMM/YYYY hh:mm') }}</td>
-        <td>{{ task.value | currency: 'BRL':'symbol'}}</td>
+        <td>{{ task.value | currency: 'BRL':'symbol' }}</td>
         <td>
           <div class="form-check w-100 d-inline-flex justify-content-center">
             <input

@@ -12,7 +12,7 @@ import {LoadingComponent} from '../../shared/loading/loading.component';
 import moment from 'moment';
 
 type SortStateType = {
-  name: boolean;
+  username: boolean;
   title: boolean;
   date: boolean;
   value: boolean;
@@ -33,19 +33,46 @@ export class DashboardComponent {
   protected readonly moment = moment;
   error: string = '';
   taskList: TaskDTO[] = [];
-  taskListCopy: TaskDTO[] = [];
   @ViewChild("taskModalSelector") taskModal!: TaskModalComponent
   @ViewChild("deletePaymentModalSelector") deletePaymentModal!: DeletePaymentModalComponent
   searchForm!: FormGroup
   private pagination: TaskDTO[] = [];
   sortState: SortStateType = {
-    name: false,
+    username: false,
     title: false,
     date: false,
     value: false,
     isPayed: false,
   };
   actualPage: number = 1;
+
+  sortingPage = {
+    sort: (property: keyof SortStateType, isDate: boolean = false): TaskDTO[] => {
+      this.sortState = Object.assign({}, this.sortState, {
+        [property]: !this.sortState[property]
+      })
+
+      const ascending = (a: TaskDTO, b: TaskDTO) =>
+        isDate
+          ? new Date(a[property] as string).getTime() -
+          new Date(b[property] as string).getTime()
+          : a[property] > b[property]
+            ? 1
+            : -1;
+
+      const descending = (a: TaskDTO, b: TaskDTO) =>
+        isDate
+          ? (new Date(b[property] as string).getTime() -
+          new Date(a[property] as string).getTime())
+          : (a[property] < b[property])
+            ? 1
+            : -1;
+
+      return this.taskList.sort(
+        this.sortState[property] ? ascending : descending
+      );
+    },
+  };
 
   constructor(private dashboardService: DashboardService) {
   }
@@ -68,7 +95,6 @@ export class DashboardComponent {
       .subscribe({
         next: (tasks) => {
           this.taskList = tasks
-          this.taskListCopy = tasks
         },
         error: (error) => {
           console.error(error)
@@ -112,7 +138,6 @@ export class DashboardComponent {
   // todo: Trocar o icone pra um botão de limpar
   clearSearch() {
     this.searchForm.reset()
-    this.taskList = this.taskListCopy
   }
 
   onCheckPaymentChange(event: Event, payment: TaskDTO) {
@@ -129,46 +154,13 @@ export class DashboardComponent {
       })
   }
 
-  // organizer(property: string) {
-  //   if (property !== 'date') {
-  //     this.pagination = this.sortingPage.textAndValue(property);
-  //   } else {
-  //     this.pagination = this.sortingPage.date(property);
-  //   }
-  // }
-  //
-  // sortingPage = {
-  //   textAndValue: (property: string) => {
-  //     this.sortState[property] = !this.sortState[property] as string;
-  //     if (this.sortState[property]) {
-  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO): number => {
-  //         if (a[property] > b[property]) {
-  //           return 1;
-  //         }
-  //         return -1;
-  //       });
-  //     } else {
-  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO): number => {
-  //         if (a[property] < b[property]) {
-  //           return 1;
-  //         }
-  //         return -1;
-  //       });
-  //     }
-  //   },
-  //   date: (property: string): TaskDTO[] => {
-  //     this.sortState[property] = !this.sortState[property];
-  //     if (this.sortState[property]) {
-  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO) => {
-  //         return new Date(a.date).getTime() - new Date(b.date).getTime();
-  //       });
-  //     } else {
-  //       return this.pagination.sort((a: TaskDTO, b: TaskDTO) => {
-  //         return new Date(b.date).getTime() - new Date(a.date).getTime();
-  //       });
-  //     }
-  //   }
-  // };
+  organizer(property: keyof SortStateType) {
+    if (property !== 'date') {
+      this.taskList = this.sortingPage.sort(property);
+      return
+    }
+    this.taskList = this.sortingPage.sort(property, true);
+  }
 
   handleDeletePaymentEvent(_payment: TaskDTO) {
     this.getTaskList(this.actualPage)

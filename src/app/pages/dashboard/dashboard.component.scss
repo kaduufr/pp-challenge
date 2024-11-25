@@ -76,5 +76,17 @@
       outline: none;
       color: #dc3545;
     }
+
+    .table-tr__head {
+      th {
+        cursor: pointer;
+        :focus {
+          outline: none;
+        }
+        i {
+          font-size: 12px;
+        }
+      }
+    }
   }
 }
