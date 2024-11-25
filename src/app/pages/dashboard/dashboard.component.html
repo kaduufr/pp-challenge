@@ -1,44 +1,96 @@
 <app-top-bar/>
 
-<main>
-  <div class="w-100 d-inline-flex justify-content-between px-5 my-4">
-    <input type="text" class="form-control w-25" placeholder="Pesquisar" aria-label="Pesquisar" aria-description="Digite aqui o usuario que voce quer pesquisar"/>
+<main class="dashboard__container">
+  <div class="w-100 d-inline-flex justify-content-between px-5 my-4 dashboard-filter__container">
+    <div class="d-inline-flex align-items-center me-auto div-form__fieldset">
+      <form [formGroup]="searchForm" (ngSubmit)="searchPayment(username)">
+        <fieldset class="d-inline-flex align-items-center fs-input__search">
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            formControlName="username"
+            placeholder="Pesquisar usuario"
+            aria-label="Pesquisar usuario"
+            aria-description="Digite aqui o usuario que voce quer pesquisar"/>
+          <span>
+          <i class="bi bi-search"></i>
+        </span>
+        </fieldset>
+      </form>
+      <button class="align-items-center d-inline-flex fs-btn_filter" (click)="searchPayment(username)">
+        <i class="bi bi-filter"></i>
+        <span>Filtrar</span>
+      </button>
+    </div>
     <div>
-      <button class="btn btn-outline-success" (click)="openModalHandleTask(TaskModalTypeEnum.ADD)">
-        Adicionar
+      <button class="btn btn-primary d-inline-flex align-items-center form-button__add"
+              (click)="openModalHandlePayment(TaskModalTypeEnum.ADD)">
+        <i class="bi bi-plus-circle me-2"></i>
+        <span>
+          Novo pagamento
+        </span>
       </button>
     </div>
   </div>
 
-  <div class="w-100">
+  <div class="dashboard-table__div">
     <table class="table table-bordered">
       <thead>
-        <tr>
-          <th>Usuario</th>
-          <th>Titulo</th>
-          <th>Data</th>
-          <th>Valor</th>
-          <th>Pago</th>
-          <th>Ações</th>
-        </tr>
+      <tr>
+        <th>Usuario</th>
+        <th>Titulo</th>
+        <th>Data</th>
+        <th>Valor</th>
+        <th>Pago</th>
+        <th>Ações</th>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let task of taskList">
-          <td>{{ task.username }}</td>
-          <td>{{ task.title }}</td>
-          <td>{{ task.date }}</td>
-          <td>{{ task.value }}</td>
-          <td>{{ task.isPayed }}</td>
-          <td>
-            <button type="button" class="btn btn-primary" (click)="openModalHandleTask(TaskModalTypeEnum.EDIT, task)">
-              Editar
+      <tr *ngFor="let task of taskList">
+        <td>{{ task.username }}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ moment(task.date).format('DD/MMM/YYYY hh:mm') }}</td>
+        <td>{{ task.value | currency: 'BRL':'symbol'}}</td>
+        <td>
+          <div class="form-check w-100 d-inline-flex justify-content-center">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [checked]="task.isPayed"
+              (change)="onCheckPaymentChange($event, task)"
+              id="flexCheckDefault">
+          </div>
+        </td>
+        <td>
+          <div class=" w-100 d-inline-flex justify-content-center">
+            <button
+              type="button"
+              class="table-btn__edit"
+              title="Editar pagamento"
+              aria-label="Editar pagamento"
+              (click)="openModalHandlePayment(TaskModalTypeEnum.EDIT, task)"
+            >
+              <i class="bi bi-pencil-fill"></i>
             </button>
-            <button class="btn btn-danger" (click)="openModalDeleteTask(task)">Excluir</button>
-          </td>
-        </tr>
+            <button
+              class="table-btn__delete"
+              title="Deletar pagamento"
+              type="button"
+              aria-label="Deletar pagamento"
+              (click)="openModalDeletePayment(task)"
+            >
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
   <app-task-modal #taskModalSelector/>
   <app-delete-payment-modal #deletePaymentModalSelector/>
+  <div class="w-100 d-flex justify-content-center">
+    <app-loading *ngIf="isLoading"/>
+  </div>
 </main>

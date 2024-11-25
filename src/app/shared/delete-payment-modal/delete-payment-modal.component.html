@@ -5,7 +5,7 @@
   aria-labelledby="taskModalTitle"
   #deletePaymentModalSelector
 >
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-danger" id="taskModalTitle">
@@ -16,9 +16,9 @@
       </div>
       <div class="modal-body">
 
-        <p>Usuário: {{ data.name }}</p>
-        <p>Data: {{ data.date | date: 'dd/MM/yyyy' }}</p>
-        <p>Valor: {{ data.value | currency: 'BRL' }}</p>
+<!--        <p>Usuário: {{ data.name || '' }}</p>-->
+<!--        <p>Data: {{ data.date | date: 'dd/MM/yyyy' }}</p>-->
+<!--        <p>Valor: {{ data.value | currency: 'BRL' }}</p>-->
 
       </div>
       <div class="modal-footer">
