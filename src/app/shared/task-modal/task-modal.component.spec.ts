@@ -3,7 +3,7 @@ import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing'
 import {TaskModalComponent} from './task-modal.component';
 import {DashboardService} from '../services/dashboard/dashboard.service';
 import {of, throwError} from 'rxjs';
-import {TaskDTO} from '../../core/DTO/taskDTO';
+import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {Modal} from 'bootstrap';
 import {HttpClient} from '@angular/common/http';
 
@@ -14,7 +14,7 @@ describe('TaskModalComponent', () => {
 
   let dashboardService: DashboardService
 
-  const taskMock = new TaskDTO({
+  const taskMock = new PaymentDTO({
     id: 1,
     name: 'Task Name',
     username: 'User1',
@@ -61,13 +61,13 @@ describe('TaskModalComponent', () => {
   });
 
   it('should set successMessage on successful addTask', () => {
-    spyOn(dashboardService, 'addPayment').and.returnValue(of<TaskDTO>(taskMock));
+    spyOn(dashboardService, 'addPayment').and.returnValue(of<PaymentDTO>(taskMock));
     component.addTask();
     expect(component.successMessage).toBe('Pagamento adicionado com sucesso');
   });
 
   it('should set successMessage on successful editTask', () => {
-    spyOn(dashboardService, 'editPayment').and.returnValue(of<TaskDTO>(taskMock));
+    spyOn(dashboardService, 'editPayment').and.returnValue(of<PaymentDTO>(taskMock));
     component.editTask();
     expect(component.successMessage).toBe('Pagamento editado com sucesso');
   });
@@ -78,7 +78,7 @@ describe('TaskModalComponent', () => {
 
     component.modal = {
       hide: jasmine.createSpy('hide')
-    } as Modal
+    } as any
 
     component.task = taskMock;
     component.editTask();

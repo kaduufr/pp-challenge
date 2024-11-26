@@ -1,7 +1,7 @@
-import {TaskDTO} from '../../core/DTO/taskDTO';
+import {PaymentDTO} from '../../core/DTO/paymentDTO';
 
 export type GetPaymentListResponseType = {
-  data: TaskDTO[];
+  data: PaymentDTO[];
   _pagination: {
     currentPage: number;
     totalItems: number;

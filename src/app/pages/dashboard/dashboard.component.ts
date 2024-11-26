@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {TopBarComponent} from '../../shared/top-bar/top-bar.component';
 import {DashboardService} from '../../shared/services/dashboard/dashboard.service';
 import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
-import {TaskDTO} from '../../core/DTO/taskDTO';
+import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
 import {TaskModalTypeEnum} from '../../shared/task-modal/task-modal.enum';
 import {DeletePaymentModalComponent} from '../../shared/delete-payment-modal/delete-payment-modal.component';
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
   protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
   protected readonly moment = moment;
   error: string = '';
-  taskList: TaskDTO[] = [];
+  taskList: PaymentDTO[] = [];
   rowsNumber: number[] = [10, 15, 20, 25, 30];
   @ViewChild("taskModalSelector") taskModal!: TaskModalComponent
   @ViewChild("deletePaymentModalSelector") deletePaymentModal!: DeletePaymentModalComponent
@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  openModalHandlePayment(type: TaskModalTypeEnum = TaskModalTypeEnum.ADD, task?: TaskDTO): void {
+  openModalHandlePayment(type: TaskModalTypeEnum = TaskModalTypeEnum.ADD, task?: PaymentDTO): void {
     this.taskModal.type = type
     if (type === TaskModalTypeEnum.ADD) {
       this.taskModal.open()
@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit {
     this.taskModal.open(task)
   }
 
-  openModalDeletePayment(payment: TaskDTO): void {
+  openModalDeletePayment(payment: PaymentDTO): void {
     this.deletePaymentModal.open(payment)
   }
 
@@ -137,7 +137,7 @@ export class DashboardComponent implements OnInit {
     this.getTaskList(this.pagination.currentPage)
   }
 
-  onCheckPaymentChange(event: Event, payment: TaskDTO) {
+  onCheckPaymentChange(event: Event, payment: PaymentDTO) {
     this.dashboardService.updatePaymentStatus(payment)
       .subscribe({
         next: () => {
@@ -159,7 +159,7 @@ export class DashboardComponent implements OnInit {
     this.taskList = this.utilityService.sort(this.taskList, property, isAsc, isDate)
   }
 
-  handleDeletePaymentEvent(_payment: TaskDTO) {
+  handleDeletePaymentEvent(_payment: PaymentDTO) {
     this.getTaskList(this.pagination.currentPage)
   }
 
@@ -172,8 +172,8 @@ export class DashboardComponent implements OnInit {
     this.getTaskList(this.pagination.currentPage)
   }
 
-  handlePaymentEdited(payment: TaskDTO) {
-    this.taskList = this.taskList.map((task: TaskDTO): TaskDTO => {
+  handlePaymentEdited(payment: PaymentDTO) {
+    this.taskList = this.taskList.map((task: PaymentDTO): PaymentDTO => {
       if (task.id === payment.id) {
         return payment
       }

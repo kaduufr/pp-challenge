@@ -1,4 +1,4 @@
-export class TaskDTO {
+export class PaymentDTO {
   id: number = -1;
   name: string = '';
   username: string = '';
@@ -8,7 +8,7 @@ export class TaskDTO {
   image: string = '';
   isPayed: boolean = false;
 
-  constructor(data?: Partial<TaskDTO>) {
-    Object.assign<TaskDTO, Partial<TaskDTO> | undefined>(this, data);
+  constructor(data?: Partial<PaymentDTO>) {
+    Object.assign<PaymentDTO, Partial<PaymentDTO> | undefined>(this, data);
   }
 }

@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
-import {TaskDTO} from '../../core/DTO/taskDTO';
+import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {CurrencyPipe, DatePipe, NgIf} from '@angular/common';
 import {Modal} from 'bootstrap';
 import {DashboardService} from '../services/dashboard/dashboard.service';
@@ -17,15 +17,15 @@ import {DashboardService} from '../services/dashboard/dashboard.service';
 })
 export class DeletePaymentModalComponent {
 
-  data!: TaskDTO;
+  data!: PaymentDTO;
   @ViewChild('deletePaymentModalSelector') deletePaymentModal!: ElementRef;
   modal!: Modal
-  @Output() deletePaymentEvent = new EventEmitter<TaskDTO>();
+  @Output() deletePaymentEvent = new EventEmitter<PaymentDTO>();
 
   constructor(private dashboardService: DashboardService) {
   }
 
-  open(taskSelected: TaskDTO): void {
+  open(taskSelected: PaymentDTO): void {
     this.data = taskSelected;
     this.modal = new Modal(this.deletePaymentModal.nativeElement);
     this.modal.show();
@@ -35,7 +35,7 @@ export class DeletePaymentModalComponent {
     this.modal.hide();
   }
 
-  deletePayment(data: TaskDTO): void {
+  deletePayment(data: PaymentDTO): void {
     this.dashboardService.deletePayment(data.id)
       .subscribe({
         next: () => {
