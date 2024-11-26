@@ -1,11 +1,11 @@
-import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {TaskModalTypeEnum} from './task-modal.enum';
 import {Modal} from 'bootstrap';
 import {TaskDTO} from '../../core/DTO/taskDTO';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import moment from 'moment';
-import {DashboardService} from '../../pages/dashboard/dashboard.service';
+import {DashboardService} from '../services/dashboard/dashboard.service';
 import {LoadingComponent} from '../loading/loading.component';
 import {finalize} from 'rxjs';
 
@@ -20,7 +20,7 @@ import {finalize} from 'rxjs';
   templateUrl: './task-modal.component.html',
   styleUrl: './task-modal.component.scss'
 })
-export class TaskModalComponent {
+export class TaskModalComponent implements OnInit {
 
   type: TaskModalTypeEnum = TaskModalTypeEnum.ADD
   @ViewChild('taskModalSelector') taskModalActionsModal!: ElementRef
@@ -28,7 +28,6 @@ export class TaskModalComponent {
   form!: FormGroup
   protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
   modal!: Modal
-  isLoading: boolean = false
   error: string = ''
   successMessage: string = ''
   @Output() onPaymentAdded = new EventEmitter<TaskDTO>()
@@ -91,13 +90,11 @@ export class TaskModalComponent {
   }
 
   addTask(): void {
-    this.isLoading = true
     this.error = ''
     this.successMessage = ''
     const {id,...newPayment} = new TaskDTO(this.form.value)
     newPayment.date = moment(newPayment.date).toDate()
     this.dashboardService.addPayment(newPayment)
-      .pipe(finalize(() => {this.isLoading = false}))
       .subscribe({
         next: (payment: TaskDTO) => {
           this.successMessage = 'Pagamento adicionado com sucesso'
@@ -113,19 +110,17 @@ export class TaskModalComponent {
   }
 
   editTask(): void {
-    this.isLoading = true
     this.error = ''
     this.successMessage = ''
     const paymentClone = {...this.task, ...this.form.value}
     this.dashboardService.editPayment(paymentClone)
-      .pipe(finalize(() => {this.isLoading = false}))
       .subscribe({
         next: (paymentUpdated: TaskDTO) => {
           this.successMessage = 'Pagamento editado com sucesso'
           setTimeout(() => {
             this.onPaymentEdited.emit(paymentUpdated)
             this.close()
-          }, 3000)
+          }, 2000)
         },
         error: (error: string) => {
           this.error = error
