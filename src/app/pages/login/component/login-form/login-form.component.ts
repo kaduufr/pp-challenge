@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LoginService} from '../../login.service';
+import {LoginService} from '../../../../shared/services/login/login.service';
 import {SessionStorageService} from '../../../../shared/services/session-storage/session-storage.service';
 import {AuthService} from '../../../../shared/services/auth/auth.service';
 import {Router} from '@angular/router';
@@ -20,7 +20,7 @@ import {finalize} from 'rxjs';
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit, AfterViewInit {
   form!: FormGroup
   error: string = '';
   loading: boolean = false;
