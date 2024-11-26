@@ -128,6 +128,9 @@
         </tbody>
       </table>
     </div>
+    <div class="alert alert-danger container" role="alert" *ngIf="error">
+      {{ error }}
+    </div>
     <div class="w-100 container d-flex justify-content-end align-items-center">
       <ng-container *ngIf="!isLoading">
         <div class="d-inline-flex align-items-center me-4">

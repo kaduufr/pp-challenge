@@ -124,8 +124,7 @@ export class DashboardComponent implements OnInit {
           this.taskList = tasks
           this.filterApplied = true
         },
-        error: (error) => {
-          console.error(error)
+        error: (_error) => {
           this.error = 'Erro ao carregar pagamentos'
         }
       })

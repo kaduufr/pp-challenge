@@ -5,7 +5,8 @@ import {DashboardService} from '../services/dashboard/dashboard.service';
 import {of, throwError} from 'rxjs';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {Modal} from 'bootstrap';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('TaskModalComponent', () => {
   let component: TaskModalComponent;
@@ -27,11 +28,9 @@ describe('TaskModalComponent', () => {
 
   beforeEach(async () => {
 
-    httpClient = jasmine.createSpyObj('HttpClient', ['put', 'get', 'post', 'delete']);
-
     await TestBed.configureTestingModule({
       imports: [TaskModalComponent],
-      providers: [{provide: HttpClient, useValue: httpClient}]
+      providers: [provideHttpClient(), provideHttpClientTesting()]
     })
       .compileComponents();
 

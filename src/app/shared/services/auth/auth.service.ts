@@ -1,24 +1,20 @@
 import {Injectable} from '@angular/core';
-
-export interface IUser {
-  email: string;
-  name: string;
-  id: number;
-}
+import {UserDTO} from '../../../core/DTO/userDTO';
+import {SessionStorageService} from '../session-storage/session-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  user: IUser | null = null;
-
-  constructor() {
+  constructor(private sessionStorage: SessionStorageService) {
   }
+
+  user: UserDTO | null = null;
 
   isAuthenticated(): boolean {
     if (typeof window === 'undefined') return false;
-    const userData = sessionStorage.getItem('user');
+    const userData = this.sessionStorage.getItem('user');
     return !!userData
   }
 
