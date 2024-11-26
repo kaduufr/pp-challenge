@@ -4,8 +4,8 @@ import {provideRouter} from '@angular/router';
 import {routes} from './app.routes';
 import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
-import {requestInterceptor} from './shared/interceptors/request/request.interceptor';
-import {urlInterceptor} from './shared/interceptors/url/url.interceptor';
+import {requestInterceptor} from './core/interceptors/request/request.interceptor';
+import {urlInterceptor} from './core/interceptors/url/url.interceptor';
 
 const interceptors = withInterceptors([requestInterceptor, urlInterceptor]);
 
