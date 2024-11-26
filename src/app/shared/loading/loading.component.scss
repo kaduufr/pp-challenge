@@ -1,0 +1,11 @@
+.div-loading__container {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c5c5c590;
+  position: absolute;
+}

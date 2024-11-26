@@ -1,3 +1,5 @@
-<div class="spinner-border" role="status" [style]="'height:' + size + 'rem; width: '+ size+ 'rem;'">
-  <span class="visually-hidden">Loading...</span>
+<div class="div-loading__container" *ngIf="show | async">
+  <div class="spinner-border" role="status" [style]="'height:' + size + 'rem; width: '+ size+ 'rem;'">
+    <span class="visually-hidden">Loading...</span>
+  </div>
 </div>
