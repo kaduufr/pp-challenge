@@ -132,18 +132,12 @@
           [disabled]="form.invalid"
           (click)="handleAction()"
         >
-          <ng-container *ngIf="isLoading; else buttonText">
-            Salvando
+          <ng-container *ngIf="type === TaskModalTypeEnum.EDIT; else addTask">
+            Editar
           </ng-container>
 
-          <ng-template #buttonText>
-            <ng-container *ngIf="type === TaskModalTypeEnum.EDIT; else addTask">
-              Editar
-            </ng-container>
-
-            <ng-template #addTask>
-              Adicionar
-            </ng-template>
+          <ng-template #addTask>
+            Adicionar
           </ng-template>
         </button>
       </div>

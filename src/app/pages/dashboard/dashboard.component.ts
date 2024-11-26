@@ -34,7 +34,6 @@ import {UtilityService} from '../../shared/services/utility/utility.service';
 })
 export class DashboardComponent implements OnInit {
 
-  protected isLoading: boolean = false
   protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
   protected readonly moment = moment;
   error: string = '';
@@ -79,9 +78,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTaskList(page: number = 1): void {
-    this.isLoading = true
     this.dashboardService.getPaymentList(page, this.pagination.itemsPerPage)
-      .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (response) => {
           this.taskList = response.data
@@ -113,12 +110,10 @@ export class DashboardComponent implements OnInit {
   }
 
   searchPayment(username: string) {
-    this.isLoading = true
     if (!username || username === '') {
       this.clearSearch()
     }
     this.dashboardService.getPaymentByUsername(username)
-      .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (tasks) => {
           this.taskList = tasks

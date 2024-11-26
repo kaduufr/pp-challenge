@@ -13,8 +13,7 @@ export class SessionStorageService {
       sessionStorage?.setItem(key, JSON.stringify(value));
       return true;
     }
-    catch (error) {
-      console.error('Error saving to sessionStorage', error);
+    catch (_error) {
       return false;
     }
   }
@@ -25,8 +24,7 @@ export class SessionStorageService {
       const data = sessionStorage.getItem(key);
       return data ? (JSON.parse(data) as T) : null;
     }
-    catch (error) {
-      console.error('Error getting from sessionStorage', error);
+    catch (_error) {
       return null;
     }
   }

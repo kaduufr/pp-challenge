@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {NgClass, NgIf} from '@angular/common';
 import {LoadingComponent} from '../../../../shared/loading/loading.component';
 import {finalize} from 'rxjs';
+import {LoginDTO} from '../../../../core/DTO/loginDTO';
 
 @Component({
   selector: 'app-login-form',
@@ -59,18 +60,13 @@ export class LoginFormComponent implements OnInit, AfterViewInit {
     this.error = '';
     this.loading = true
 
-    const {email, password} = this.form.value
+    const {email, password}: LoginDTO = this.form.value
     this.loginService.login(email, password)
       .pipe(finalize(() => {
         this.loading = false
       })).subscribe({
       next: (user) => {
-        const userData = {
-          id: user.id,
-          name: user.name,
-          email: user.email
-        }
-        this.sessionStorageService.setItem('user', userData)
+        this.sessionStorageService.setItem<string>('user', user.email)
         this.router.navigate(['/dashboard'])
       },
       error: (err) => {
