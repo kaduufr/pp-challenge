@@ -1,10 +1,10 @@
 .login-page {
-  .columnLeft {
+  .columnRight {
     width: 40%;
     height: 100vh;
     background-color: #ececec;
   }
-  .columnRight {
+  .columnLeft {
     width: 60%;
     display: flex;
     justify-content: center;
@@ -17,10 +17,10 @@
   }
 
   @media screen and (max-width: 992px) {
-    .columnRight {
+    .columnLeft {
       display: none;
     }
-    .columnLeft {
+    .columnRight {
       width: 100%;
     }
   }
