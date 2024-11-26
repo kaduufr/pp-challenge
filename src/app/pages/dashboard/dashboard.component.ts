@@ -1,7 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TopBarComponent} from '../../shared/top-bar/top-bar.component';
-import {DashboardService} from './dashboard.service';
-import {CurrencyPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {DashboardService} from '../../shared/services/dashboard/dashboard.service';
+import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
 import {TaskDTO} from '../../core/DTO/taskDTO';
 import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
 import {TaskModalTypeEnum} from '../../shared/task-modal/task-modal.enum';
@@ -11,14 +11,8 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {LoadingComponent} from '../../shared/loading/loading.component';
 import moment from 'moment';
 import {PaginatorComponent} from '../../shared/paginator/paginator.component';
-
-type SortStateType = {
-  username: boolean;
-  title: boolean;
-  date: boolean;
-  value: boolean;
-  isPayed: boolean;
-}
+import {SortStateType} from '../../shared/interfaces/sort-state.type';
+import {UtilityService} from '../../shared/services/utility/utility.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,14 +26,13 @@ type SortStateType = {
     LoadingComponent,
     NgIf,
     CurrencyPipe,
-    PaginatorComponent,
-    NgOptimizedImage
+    PaginatorComponent
   ],
   templateUrl: './dashboard.component.html',
   standalone: true,
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   protected isLoading: boolean = false
   protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
@@ -65,7 +58,7 @@ export class DashboardComponent {
     totalPages: number;
   }
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService, private utilityService: UtilityService) {
     this.pagination = {
       currentPage: 1,
       totalItems: 0,
@@ -157,32 +150,13 @@ export class DashboardComponent {
       })
   }
 
-  sortingPage = (property: keyof SortStateType, isDate: boolean = false): TaskDTO[] => {
+  organizer(property: keyof SortStateType) {
     this.sortState = Object.assign({}, this.sortState, {
       [property]: !this.sortState[property]
     })
-
-    const ordering = (first: TaskDTO, next: TaskDTO) =>
-      isDate
-        ? new Date(first[property] as string).getTime() -
-        new Date(next[property] as string).getTime()
-        : first[property] > next[property]
-          ? 1
-          : -1;
-
-
-    return this.taskList.sort(
-      this.sortState[property] ?
-        ordering : (a, b) => ordering(a, b)
-    );
-  }
-
-  organizer(property: keyof SortStateType) {
-    if (property !== 'date') {
-      this.taskList = this.sortingPage(property);
-      return
-    }
-    this.taskList = this.sortingPage(property, true);
+    const isAsc: "asc" | "desc" = this.sortState[property] ? "asc" : "desc"
+    const isDate = property !== 'date'
+    this.taskList = this.utilityService.sort(this.taskList, property, isAsc, isDate)
   }
 
   handleDeletePaymentEvent(_payment: TaskDTO) {
@@ -194,7 +168,7 @@ export class DashboardComponent {
   }
 
   changeItemsPerPage(event: Event) {
-    this.pagination.itemsPerPage = parseInt((event.target as HTMLSelectElement).value, 10)
+    this.pagination.itemsPerPage = Number((event.target as HTMLSelectElement).value)
     this.getTaskList(this.pagination.currentPage)
   }
 

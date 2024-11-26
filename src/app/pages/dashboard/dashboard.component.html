@@ -147,10 +147,6 @@
         (changePageEvent)="changePage($event)"
       ></app-paginator>
     </div>
-
-    <div class="w-100 d-flex justify-content-center">
-      <app-loading *ngIf="isLoading"/>
-    </div>
   </div>
 
   <app-task-modal #taskModalSelector (onPaymentEdited)="handlePaymentEdited($event)"/>

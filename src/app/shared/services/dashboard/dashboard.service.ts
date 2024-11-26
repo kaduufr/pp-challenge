@@ -1,50 +1,21 @@
 import {Injectable} from '@angular/core';
-import {ApiService} from '../../shared/services/api/api.service';
 import {catchError, map, Observable, throwError} from 'rxjs';
-import {TaskDTO} from '../../core/DTO/taskDTO';
-import {HttpErrorResponse} from '@angular/common/http';
-
-type TaskResponseType = {
-  id: number;
-  name: string
-  username: string;
-  title: string;
-  value: number;
-  date: string;
-  image: string;
-  isPayed: boolean;
-}
-
-type GetTaskListResponseType = {
-  data: TaskResponseType[];
-  first: number;
-  prev: number;
-  next: number;
-  last: number;
-  pages: number;
-  items: number;
-}
-
-type GetPaymentListResponseType = {
-  data: TaskDTO[];
-  _pagination: {
-    currentPage: number;
-    totalItems: number;
-    totalPages: number;
-  }
-}
-
+import {TaskDTO} from '../../../core/DTO/taskDTO';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {GetTaskListResponseType} from '../../interfaces/get-task-list-response.type';
+import {GetPaymentListResponseType} from '../../interfaces/get-payment-list-response.type';
+import {TaskResponseType} from '../../interfaces/task-response.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  constructor(private apiService: ApiService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   getPaymentList(page: number = 1, limit: number = 10): Observable<GetPaymentListResponseType> {
-    return this.apiService.get<GetTaskListResponseType>(`/tasks?_page=${page}&_per_page=${limit}`).pipe(
+    return this.httpClient.get<GetTaskListResponseType>(`/tasks?_page=${page}&_per_page=${limit}`).pipe(
       map((response: GetTaskListResponseType) => {
         const tasks: TaskResponseType[] = response.data;
         const taskList: TaskDTO[] = tasks.map((task: TaskResponseType) => new TaskDTO({
@@ -63,11 +34,11 @@ export class DashboardService {
   }
 
   deletePayment(id: number): Observable<void> {
-    return this.apiService.delete<void>(`/tasks/${id}`);
+    return this.httpClient.delete<void>(`/tasks/${id}`);
   }
 
   getPaymentByUsername(username: string): Observable<TaskDTO[]> {
-    return this.apiService.get<TaskDTO[]>(`/tasks?username=${username}`).pipe(
+    return this.httpClient.get<TaskDTO[]>(`/tasks?username=${username}`).pipe(
       map((tasks: TaskDTO[]) => {
           return tasks.map((task: TaskDTO) => {
               return {
@@ -83,11 +54,11 @@ export class DashboardService {
 
   updatePaymentStatus(payment: TaskDTO): Observable<TaskDTO> {
     const paymentUpdated = Object.assign({}, payment, {isPayed: !payment.isPayed});
-    return this.apiService.put<TaskDTO>(`/tasks/${paymentUpdated.id}`, paymentUpdated);
+    return this.httpClient.put<TaskDTO>(`/tasks/${paymentUpdated.id}`, paymentUpdated);
   }
 
   editPayment(payment: TaskDTO): Observable<TaskDTO> {
-    return this.apiService.put<TaskDTO>(`/tasks/${payment.id}`, payment)
+    return this.httpClient.put<TaskDTO>(`/tasks/${payment.id}`, payment)
       .pipe(
         catchError((_error: HttpErrorResponse) => {
           const statusCode = _error.status;
@@ -97,7 +68,7 @@ export class DashboardService {
   }
 
   addPayment(payment: Omit<TaskDTO, 'id'>): Observable<TaskDTO> {
-    return this.apiService.post<TaskDTO>('/tasks', payment)
+    return this.httpClient.post<TaskDTO>('/tasks', payment)
       .pipe(
         catchError((_error: HttpErrorResponse) => {
           const statusCode = _error.status;
