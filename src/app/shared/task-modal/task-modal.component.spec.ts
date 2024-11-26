@@ -4,14 +4,12 @@ import {TaskModalComponent} from './task-modal.component';
 import {DashboardService} from '../services/dashboard/dashboard.service';
 import {of, throwError} from 'rxjs';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
-import {Modal} from 'bootstrap';
-import {HttpClient, provideHttpClient} from '@angular/common/http';
+import {provideHttpClient} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('TaskModalComponent', () => {
   let component: TaskModalComponent;
   let fixture: ComponentFixture<TaskModalComponent>;
-  let httpClient: jasmine.SpyObj<HttpClient>;
 
   let dashboardService: DashboardService
 

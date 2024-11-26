@@ -16,6 +16,10 @@
       </div>
       <div class="modal-body">
 
+        <div class="alert alert-danger" role="alert" *ngIf="!!error">
+          {{ error }}
+        </div>
+
         <ng-container *ngIf="data">
           <p>Usuário: {{ data.name || '' }}</p>
           <p>Data: {{ data.date | date: 'dd/MM/yyyy' }}</p>
