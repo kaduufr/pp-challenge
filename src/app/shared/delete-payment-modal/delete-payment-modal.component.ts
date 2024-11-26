@@ -21,12 +21,13 @@ export class DeletePaymentModalComponent {
   @ViewChild('deletePaymentModalSelector') deletePaymentModal!: ElementRef;
   modal!: Modal
   @Output() deletePaymentEvent = new EventEmitter<PaymentDTO>();
+  error: string = '';
 
   constructor(private dashboardService: DashboardService) {
   }
 
-  open(taskSelected: PaymentDTO): void {
-    this.data = taskSelected;
+  open(paymentSelected: PaymentDTO): void {
+    this.data = paymentSelected;
     this.modal = new Modal(this.deletePaymentModal.nativeElement);
     this.modal.show();
   }
@@ -42,8 +43,8 @@ export class DeletePaymentModalComponent {
           this.deletePaymentEvent.emit(data);
           this.close();
         },
-        error: (error) => {
-          console.error(error);
+        error: (_error) => {
+          this.error = 'Erro ao deletar pagamento';
         }
       })
   }

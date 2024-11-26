@@ -128,23 +128,21 @@
         </tbody>
       </table>
     </div>
-    <div class="alert alert-danger container" role="alert" *ngIf="error">
+    <div class="alert alert-danger container" role="alert" *ngIf="!!error">
       {{ error }}
     </div>
     <div class="w-100 container d-flex justify-content-end align-items-center">
-      <ng-container *ngIf="!isLoading">
-        <div class="d-inline-flex align-items-center me-4">
-          <label for="totalItemsToShow" class="me-2">Exibir</label>
-          <select id="totalItemsToShow" (change)="changeItemsPerPage($event)" class="form-select"
-                  aria-label="Quantidade de pagamentos à serem exibidos">
-            <ng-container *ngFor="let item of rowsNumber">
-              <option [value]="item" [selected]="item === pagination.itemsPerPage"
-              >{{ item }}
-              </option>
-            </ng-container>
-          </select>
-        </div>
-      </ng-container>
+      <div class="d-inline-flex align-items-center me-4">
+        <label for="totalItemsToShow" class="me-2">Exibir</label>
+        <select id="totalItemsToShow" (change)="changeItemsPerPage($event)" class="form-select"
+                aria-label="Quantidade de pagamentos à serem exibidos">
+          <ng-container *ngFor="let item of rowsNumber">
+            <option [value]="item" [selected]="item === pagination.itemsPerPage"
+            >{{ item }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
       <app-paginator
         [pagination]="pagination"
         (changePageEvent)="changePage($event)"

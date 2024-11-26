@@ -33,8 +33,8 @@ export class DashboardService {
       }));
   }
 
-  deletePayment(id: number): Observable<void> {
-    return this.httpClient.delete<void>(`/tasks/${id}`);
+  deletePayment(id: number): Observable<null> {
+    return this.httpClient.delete<null>(`/tasks/${id}`);
   }
 
   getPaymentByUsername(username: string): Observable<PaymentDTO[]> {

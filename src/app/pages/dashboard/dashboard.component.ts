@@ -6,7 +6,6 @@ import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
 import {TaskModalTypeEnum} from '../../shared/task-modal/task-modal.enum';
 import {DeletePaymentModalComponent} from '../../shared/delete-payment-modal/delete-payment-modal.component';
-import {finalize} from 'rxjs';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LoadingComponent} from '../../shared/loading/loading.component';
 import moment from 'moment';
