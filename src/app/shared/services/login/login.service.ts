@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {ApiService} from '../../shared/services/api/api.service';
 import {Observable, map, catchError, throwError} from 'rxjs';
-import {UserResponseType} from '../../shared/interfaces/user-response.type';
+import {UserResponseType} from '../../interfaces/user-response.type';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: ApiService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   login(email: string, password: string): Observable<UserResponseType> {
@@ -27,7 +27,7 @@ export class LoginService {
   }
 
   private findUserByEmail(email: string): Observable<UserResponseType | undefined> {
-    return this.http.get<UserResponseType[]>(`/account?email=${email}`)
+    return this.httpClient.get<UserResponseType[]>(`/account?email=${email}`)
       .pipe(
         map((users) => users[0]),
       );
