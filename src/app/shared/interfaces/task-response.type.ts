@@ -1,10 +1,10 @@
-export interface ITask {
+export type TaskResponseType = {
   id: number;
   name: string
   username: string;
   title: string;
   value: number;
-  date: Date;
+  date: string;
   image: string;
   isPayed: boolean;
 }

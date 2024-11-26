@@ -1,13 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiService} from '../../shared/services/api/api.service';
 import {Observable, map, catchError, throwError} from 'rxjs';
-
-type UserResponseType = {
-  email: string;
-  password: string;
-  name: string;
-  id: number;
-}
+import {UserResponseType} from '../../shared/interfaces/user-response.type';
 
 @Injectable({
   providedIn: 'root'

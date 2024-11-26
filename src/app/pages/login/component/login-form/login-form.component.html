@@ -1,6 +1,6 @@
 <div class="d-flex h-100 justify-content-center align-items-center login-form_page">
   <div class="d-flex flex-column div-form-centered m-4 py-4">
-    <h1 class="text-left" id="login-title">Pay<span>Me</span></h1>
+    <h1 class="text-left" id="login-title">Pay<span>Dash</span></h1>
     <h2 class="text-left" id="welcome-message">Bem vindo de volta!</h2>
 
     <form [formGroup]="form" (ngSubmit)="submit()" aria-labelledby="login-title">
@@ -53,12 +53,7 @@
         class="btn btn-primary w-100 btn-submit-login"
         [disabled]="form.invalid"
       >
-        <ng-container *ngIf="loading; else btnContent">
-          <app-loading/>
-        </ng-container>
-        <ng-template #btnContent>
           Acessar
-        </ng-template>
       </button>
     </form>
     <div *ngIf="error" class="text-danger mt-3" role="alert">

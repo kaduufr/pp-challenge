@@ -48,14 +48,8 @@ export class DashboardService {
       map((response: GetTaskListResponseType) => {
         const tasks: TaskResponseType[] = response.data;
         const taskList: TaskDTO[] = tasks.map((task: TaskResponseType) => new TaskDTO({
-            id: task.id,
-            name: task.name,
-            username: task.username,
-            title: task.title,
-            value: task.value,
+            ...task,
             date: new Date(task.date),
-            image: task.image,
-            isPayed: task.isPayed
         }))
         return {
           data: taskList,
@@ -77,14 +71,8 @@ export class DashboardService {
       map((tasks: TaskDTO[]) => {
           return tasks.map((task: TaskDTO) => {
               return {
-                id: task.id,
-                name: task.name,
-                username: task.username,
-                title: task.title,
-                value: task.value,
+                ...task,
                 date: new Date(task.date),
-                image: task.image,
-                isPayed: task.isPayed
               }
             }
           )
