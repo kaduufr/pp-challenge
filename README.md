@@ -47,6 +47,13 @@ $ docker-compose up -D
 # A API está disponível em http://localhost:3030
 ```
 
+### Instalando Cypress
+
+Caso seja necessario, consulte a documentação do cypress para instalação de pacotes necessarios para a execução do mesmo.
+
+[Documentação de instalação do Cypress](https://docs.cypress.io/app/get-started/install-cypress)
+
+
 ### Rodando os testes
 
 Todos os comandos de teste estão configurados para rodar em modo headless.
