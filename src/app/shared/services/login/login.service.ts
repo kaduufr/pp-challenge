@@ -13,7 +13,7 @@ export class LoginService {
 
   login(email: string, password: string): Observable<UserResponseType> {
     return this.findUserByEmail(email).pipe(
-      map((user) => {
+      map((user: UserResponseType | undefined) => {
         if (!user) {
           throw new Error('Usuário não encontrado');
         }
@@ -21,8 +21,7 @@ export class LoginService {
           throw new Error('Senha inválida');
         }
         return user;
-      }),
-      catchError((_error: HttpErrorResponse) => throwError(() => new Error("Erro ao fazer login")))
+      })
     )
   }
 

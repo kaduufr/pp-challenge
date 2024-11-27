@@ -67,9 +67,12 @@ export class LoginFormComponent implements OnInit, AfterViewInit {
         this.sessionStorageService.setItem<string>('user', user.email)
         this.router.navigate(['/dashboard'])
       },
-      error: (err) => {
-        console.error(err.message);
-        this.error = err.message;
+      error: (error: unknown) => {
+        if (error instanceof Error) {
+          this.error = error.message;
+          return
+        }
+        this.error = 'Erro ao realizar login';
       }
     });
   }
