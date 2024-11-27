@@ -1,59 +1,96 @@
-# PpChallenge
+# PicPay - Frontend Challenge
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+# O desafio
+O desafio consiste em desenvolver uma aplicação com um login, e um dashboard com um CRUD com paginação, filtro e ordenaçao de colunas (ASC/DESC).
 
-## Development server
+## Setup do projeto
 
-To start a local development server, run:
+- Angular CLI: 19.0.0
+- Node: 20.15.0
+- Angular: 19.0.0
 
-```bash
-ng serve
-```
+## Rodando o projeto
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Rodando o projeto localmente
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Está sendo utilizado um mock de API para simular o backend da aplicação. Para rodar o projeto localmente, siga os passos abaixo:
+#### Instalando o json-server
 
 ```bash
-ng generate --help
+#Instalando o json-server para rodar a API
+$ npm install -g json-server
 ```
 
-## Building
-
-To build the project run:
+#### Rodando o projeto
 
 ```bash
-ng build
+# Instalando dependências
+$ npm install
+
+# Rodando o API
+$ npm run mock
+
+# Rodando o projeto
+$ npm start
+
+# O projeto estará disponível em http://localhost:4200
+# A API está disponível em http://localhost:3030
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Rodando o projeto com Docker
 
 ```bash
-ng test
+# Rodando o projeto
+$ docker-compose up -D
+
+# O projeto estará disponível em http://localhost:4200
+# A API está disponível em http://localhost:3030
 ```
 
-## Running end-to-end tests
+### Rodando os testes
 
-For end-to-end (e2e) testing, run:
+Todos os comandos de teste estão configurados para rodar em modo headless.
 
 ```bash
-ng e2e
+# Testes unitários
+$ npm run test:headless
+
+# Testes e2e
+$ npm run cy:run
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Estrutura do projeto
 
-## Additional Resources
+```
+src /
+|-- app /
+|   |-- core /
+|   |   |-- guard /
+|   |   |-- interceptors /
+|   |   |-- DTO /
+|   |-- pages /
+|   |   |-- login /
+|   |   |-- dashboard /
+|   |-- shared /
+|   |   |-- delete-payment-modal /
+|   |   |-- interfaces /
+|   |   |-- services /
+|   |   |-- loading /
+|   |   |-- paginator /
+|   |   |-- task-modal /
+|   |   |-- top-bar /
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+#### Bibliotecas utilizadas
+
+- Bootstrap 5
+- moment.js
+- cypress
+- json-server
+- Angular 19.0.0
+- Jasmine + Karma
+
+#### Screenshots
+
+[Clique para ir para pasta de imagens](https://github.com/kaduufr/pp-challenge/screenshots)
+
