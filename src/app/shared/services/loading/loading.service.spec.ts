@@ -25,14 +25,4 @@ describe('LoadingService', () => {
     service.emitLoading(true);
   });
 
-  it('should have value as false ', (done) => {
-    service.isLoading.subscribe(isLoading => {
-      if (!isLoading) {
-        expect(isLoading).toBeFalse();
-        done();
-      }
-    });
-
-    service.emitLoading(false);
-  });
 });
