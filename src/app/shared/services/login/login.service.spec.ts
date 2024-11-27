@@ -60,9 +60,9 @@ describe('LoginService', () => {
   it('should return error on request', () => {
 
     service.login(user.email, user.password).subscribe({
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         expect(error).toBeInstanceOf(Error)
-        expect(error.message).toBe('Erro ao fazer login')
+        expect(error.message).toBe('Erro ao realizar login')
       }
     })
 

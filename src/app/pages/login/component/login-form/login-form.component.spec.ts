@@ -79,7 +79,7 @@ describe('LoginFormComponent', () => {
     component.submit();
     fixture.detectChanges();
 
-    expect(component.error).toBe('Erro ao fazer login');
+    expect(component.error).toBe('Erro ao realizar login');
   });
 
   it('should navigate to dashboard if user is already authenticated', () => {

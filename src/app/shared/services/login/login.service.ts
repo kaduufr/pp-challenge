@@ -22,6 +22,13 @@ export class LoginService {
         }
         return user;
       })
+      ,
+      catchError((error) => {
+        if (error.status >= 500) {
+          return throwError(() => new Error('Erro ao realizar login'));
+        }
+        return throwError(() => error);
+      })
     )
   }
 
