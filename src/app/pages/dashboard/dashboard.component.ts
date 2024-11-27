@@ -7,11 +7,12 @@ import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
 import {TaskModalTypeEnum} from '../../shared/task-modal/task-modal.enum';
 import {DeletePaymentModalComponent} from '../../shared/delete-payment-modal/delete-payment-modal.component';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {LoadingComponent} from '../../shared/loading/loading.component';
 import moment from 'moment';
 import {PaginatorComponent} from '../../shared/paginator/paginator.component';
 import {SortStateType} from '../../shared/interfaces/sort-state.type';
 import {UtilityService} from '../../shared/services/utility/utility.service';
+import {GetPaymentListResponseType} from '../../shared/interfaces/get-payment-list-response.type';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,6 @@ import {UtilityService} from '../../shared/services/utility/utility.service';
     DeletePaymentModalComponent,
     FormsModule,
     ReactiveFormsModule,
-    LoadingComponent,
     NgIf,
     CurrencyPipe,
     PaginatorComponent
@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
   protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
   protected readonly moment = moment;
   error: string = '';
-  taskList: PaymentDTO[] = [];
+  paymentList: PaymentDTO[] = [];
   rowsNumber: number[] = [10, 15, 20, 25, 30];
   @ViewChild("taskModalSelector") taskModal!: TaskModalComponent
   @ViewChild("deletePaymentModalSelector") deletePaymentModal!: DeletePaymentModalComponent
@@ -79,8 +79,8 @@ export class DashboardComponent implements OnInit {
   getTaskList(page: number = 1): void {
     this.dashboardService.getPaymentList(page, this.pagination.itemsPerPage)
       .subscribe({
-        next: (response) => {
-          this.taskList = response.data
+        next: (response: GetPaymentListResponseType) => {
+          this.paymentList = response.data
           this.pagination = {
             currentPage: page,
             totalItems: response._pagination.totalItems,
@@ -88,8 +88,7 @@ export class DashboardComponent implements OnInit {
             itemsPerPage: this.pagination.itemsPerPage
           }
         },
-        error: (error) => {
-          console.error(error)
+        error: (_error) => {
           this.error = 'Erro ao carregar pagamentos'
         }
       })
@@ -115,7 +114,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getPaymentByUsername(username)
       .subscribe({
         next: (tasks) => {
-          this.taskList = tasks
+          this.paymentList = tasks
           this.filterApplied = true
         },
         error: (_error) => {
@@ -130,14 +129,13 @@ export class DashboardComponent implements OnInit {
     this.getTaskList(this.pagination.currentPage)
   }
 
-  onCheckPaymentChange(event: Event, payment: PaymentDTO) {
+  onCheckPaymentChange(payment: PaymentDTO) {
     this.dashboardService.updatePaymentStatus(payment)
       .subscribe({
         next: () => {
           payment.isPayed = !payment.isPayed
         },
-        error: (error) => {
-          console.error(error)
+        error: (_error: HttpErrorResponse) => {
           this.error = 'Erro ao atualizar pagamento'
         }
       })
@@ -149,7 +147,7 @@ export class DashboardComponent implements OnInit {
     })
     const isAsc: "asc" | "desc" = this.sortState[property] ? "asc" : "desc"
     const isDate = property !== 'date'
-    this.taskList = this.utilityService.sort(this.taskList, property, isAsc, isDate)
+    this.paymentList = this.utilityService.sort(this.paymentList, property, isAsc, isDate)
   }
 
   handleDeletePaymentEvent(_payment: PaymentDTO) {
@@ -166,7 +164,7 @@ export class DashboardComponent implements OnInit {
   }
 
   handlePaymentEdited(payment: PaymentDTO) {
-    this.taskList = this.taskList.map((task: PaymentDTO): PaymentDTO => {
+    this.paymentList = this.paymentList.map((task: PaymentDTO): PaymentDTO => {
       if (task.id === payment.id) {
         return payment
       }
