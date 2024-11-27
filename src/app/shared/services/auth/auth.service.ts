@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
 import {UserDTO} from '../../../core/DTO/userDTO';
-import {SessionStorageService} from '../session-storage/session-storage.service';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private sessionStorage: SessionStorageService) {
+  constructor(private localStorageService: LocalStorageService) {
   }
 
   user: UserDTO | null = null;
 
   isAuthenticated(): boolean {
     if (typeof window === 'undefined') return false;
-    const userData = this.sessionStorage.getItem<UserDTO>('user');
+    const userData = this.localStorageService.getItem<UserDTO>('user');
     return !!userData
   }
 

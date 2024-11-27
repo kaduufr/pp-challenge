@@ -2,7 +2,7 @@
 
 Cypress.Commands.add('login', () => {
   cy.window().then((win) => {
-    win.sessionStorage.setItem('user', JSON.stringify('emailmock@mail.com'));
+    win.localStorage.setItem('user', JSON.stringify('emailmock@mail.com'));
   })
 });
 

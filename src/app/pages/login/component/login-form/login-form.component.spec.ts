@@ -2,25 +2,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginFormComponent } from './login-form.component';
 import {LoginService} from '../../../../shared/services/login/login.service';
-import {SessionStorageService} from '../../../../shared/services/session-storage/session-storage.service';
 import {AuthService} from '../../../../shared/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import {provideHttpClient} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {of, throwError} from 'rxjs';
+import { LocalStorageService } from '../../../../shared/services/local-storage/local-storage.service';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
   let loginService: jasmine.SpyObj<LoginService>;
-  let sessionStorageService: jasmine.SpyObj<SessionStorageService>;
+  let localStorageService: jasmine.SpyObj<LocalStorageService>;
   let authService: jasmine.SpyObj<AuthService>;
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
     const loginServiceSpy = jasmine.createSpyObj('LoginService', ['login']);
-    const sessionStorageServiceSpy = jasmine.createSpyObj('SessionStorageService', ['setItem']);
+    const localStorageServiceSpy = jasmine.createSpyObj('LocalStorageService', ['setItem']);
     const authServiceSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
@@ -29,7 +29,7 @@ describe('LoginFormComponent', () => {
       declarations: [],
       providers: [
         { provide: LoginService, useValue: loginServiceSpy },
-        { provide: SessionStorageService, useValue: sessionStorageServiceSpy },
+        { provide: LocalStorageService, useValue: localStorageServiceSpy },
         { provide: AuthService, useValue: authServiceSpy },
         { provide: Router, useValue: routerSpy },
         provideHttpClient(),
@@ -40,7 +40,7 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     loginService = TestBed.inject(LoginService) as jasmine.SpyObj<LoginService>;
-    sessionStorageService = TestBed.inject(SessionStorageService) as jasmine.SpyObj<SessionStorageService>;
+    localStorageService = TestBed.inject(LocalStorageService) as jasmine.SpyObj<LocalStorageService>;
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     fixture.detectChanges();
@@ -67,7 +67,7 @@ describe('LoginFormComponent', () => {
     fixture.detectChanges();
 
     expect(loginService.login).toHaveBeenCalledWith('test@example.com', '123456');
-    expect(sessionStorageService.setItem).toHaveBeenCalledWith('user', 'test@example.com');
+    expect(localStorageService.setItem).toHaveBeenCalledWith('user', 'test@example.com');
     expect(router.navigate).toHaveBeenCalledWith(['/dashboard']);
   });
 

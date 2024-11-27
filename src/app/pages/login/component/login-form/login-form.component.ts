@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginService} from '../../../../shared/services/login/login.service';
-import {SessionStorageService} from '../../../../shared/services/session-storage/session-storage.service';
 import {AuthService} from '../../../../shared/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {NgClass, NgIf} from '@angular/common';
 import {finalize} from 'rxjs';
 import {LoginDTO} from '../../../../core/DTO/loginDTO';
+import { LocalStorageService } from '../../../../shared/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-login-form',
@@ -25,7 +25,7 @@ export class LoginFormComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   showPassword: boolean = false
 
-  constructor(private loginService: LoginService, private sessionStorageService: SessionStorageService, private authService: AuthService, private router: Router) {
+  constructor(private loginService: LoginService, private localStorageService: LocalStorageService, private authService: AuthService, private router: Router) {
   }
 
   ngOnInit() {
@@ -64,7 +64,8 @@ export class LoginFormComponent implements OnInit, AfterViewInit {
         this.loading = false
       })).subscribe({
       next: (user) => {
-        this.sessionStorageService.setItem<string>('user', user.email)
+        this.localStorageService.setItem<string>('user', user.email)
+        console.log('Usuário logado com sucesso');
         this.router.navigate(['/dashboard'])
       },
       error: (error: unknown) => {

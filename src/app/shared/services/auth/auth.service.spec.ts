@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
-import {SessionStorageService} from '../session-storage/session-storage.service';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let sessionStorageService: SessionStorageService;
+  let localStorageService: LocalStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(AuthService);
-    sessionStorageService = TestBed.inject(SessionStorageService);
-    sessionStorageService.clear();
+    localStorageService = TestBed.inject(LocalStorageService);
+    localStorageService.clear();
   });
 
   it('should be created', () => {
@@ -23,7 +23,7 @@ describe('AuthService', () => {
   });
 
   it('should return true when isAuthenticated is called', () => {
-    sessionStorageService.setItem('user', {name: 'User'});
+    localStorageService.setItem('user', {name: 'User'});
     expect(service.isAuthenticated()).toBeTrue();
   });
 

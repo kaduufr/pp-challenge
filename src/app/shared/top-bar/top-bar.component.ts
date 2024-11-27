@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {SessionStorageService} from '../services/session-storage/session-storage.service';
 import {Router} from '@angular/router';
+import { LocalStorageService } from '../services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-top-bar',
@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 })
 export class TopBarComponent {
 
-  constructor(private sessionStorage: SessionStorageService, private router: Router) {}
+  constructor(private sessionStorage: LocalStorageService, private router: Router) {}
 
   logout() {
     this.sessionStorage.clear()

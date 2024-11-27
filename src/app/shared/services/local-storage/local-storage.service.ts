@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SessionStorageService {
+export class LocalStorageService {
 
-  constructor() {}
+  constructor() { }
 
   setItem<T = any>(key: string, value: T): boolean {
     if (typeof window === 'undefined') return false;
     try {
-      sessionStorage?.setItem(key, JSON.stringify(value));
+      localStorage?.setItem(key, JSON.stringify(value));
       return true;
     }
     catch (_error) {
@@ -21,7 +21,7 @@ export class SessionStorageService {
   getItem<T>(key: string): T | null {
     if (typeof window === 'undefined') return null;
     try {
-      const data = sessionStorage.getItem(key);
+      const data = localStorage.getItem(key);
       return data ? (JSON.parse(data) as T) : null;
     }
     catch (_error) {
@@ -30,7 +30,7 @@ export class SessionStorageService {
   }
 
   clear(): void {
-    sessionStorage.clear();
+    localStorage.clear();
   }
 
 }
