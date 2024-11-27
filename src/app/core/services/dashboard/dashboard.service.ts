@@ -4,7 +4,7 @@ import {PaymentDTO} from '../../DTO/paymentDTO';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {GetTaskListResponseType} from '../../../shared/interfaces/get-task-list-response.type';
 import {GetPaymentListResponseType} from '../../../shared/interfaces/get-payment-list-response.type';
-import {TaskResponseType} from '../../../shared/interfaces/task-response.type';
+import {PaymentResponseType} from '../../../shared/interfaces/payment-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +17,13 @@ export class DashboardService {
   getPaymentList(page: number = 1, limit: number = 10): Observable<GetPaymentListResponseType> {
     return this.httpClient.get<GetTaskListResponseType>(`/tasks?_page=${page}&_per_page=${limit}`).pipe(
       map((response: GetTaskListResponseType) => {
-        const tasks: TaskResponseType[] = response.data;
-        const taskList: PaymentDTO[] = tasks.map((task: TaskResponseType) => new PaymentDTO({
-            ...task,
-            date: new Date(task.date),
+        const payments: PaymentResponseType[] = response.data;
+        const paymentList: PaymentDTO[] = payments.map((payment: PaymentResponseType) => new PaymentDTO({
+            ...payment,
+            date: new Date(payment.date),
         }))
         return {
-          data: taskList,
+          data: paymentList,
           _pagination: {
             currentPage: response?.first || 1,
             totalItems: response?.items || 0,
@@ -39,11 +39,11 @@ export class DashboardService {
 
   getPaymentByUsername(username: string): Observable<PaymentDTO[]> {
     return this.httpClient.get<PaymentDTO[]>(`/tasks?username=${username}`).pipe(
-      map((tasks: PaymentDTO[]) => {
-          return tasks.map((task: PaymentDTO) => {
+      map((payments: PaymentDTO[]) => {
+          return payments.map((payment: PaymentDTO) => {
               return {
-                ...task,
-                date: new Date(task.date),
+                ...payment,
+                date: new Date(payment.date),
               }
             }
           )

@@ -1,14 +1,14 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DashboardComponent} from './dashboard.component';
-import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
+import {PaymentModalComponent} from '../../shared/payment-modal/payment-modal.component';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 import {UtilityService} from '../../shared/services/utility/utility.service';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {DeletePaymentModalComponent} from '../../shared/delete-payment-modal/delete-payment-modal.component';
 import {of, throwError} from 'rxjs';
-import {TaskModalTypeEnum} from '../../shared/task-modal/task-modal.enum';
+import {PaymentModalTypeEnum} from '../../core/enum/payment-modal.enum';
 import {provideHttpClient} from '@angular/common/http';
 import {GetPaymentListResponseType} from '../../shared/interfaces/get-payment-list-response.type';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
@@ -39,7 +39,7 @@ describe('DashboardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [DashboardComponent, TaskModalComponent, DeletePaymentModalComponent, ReactiveFormsModule],
+      imports: [DashboardComponent, PaymentModalComponent, DeletePaymentModalComponent, ReactiveFormsModule],
       providers: [DashboardService, UtilityService, FormBuilder, provideHttpClient(), provideHttpClientTesting()]
     })
       .compileComponents();
@@ -101,9 +101,9 @@ describe('DashboardComponent', () => {
   });
 
   it('should open the modal for adding a task', () => {
-    spyOn(component.taskModal, 'open');
-    component.openModalHandlePayment(TaskModalTypeEnum.ADD);
-    expect(component.taskModal.open).toHaveBeenCalled();
+    spyOn(component.paymentModal, 'open');
+    component.openModalHandlePayment(PaymentModalTypeEnum.ADD);
+    expect(component.paymentModal.open).toHaveBeenCalled();
   });
 
   it('should handle items per page change', () => {

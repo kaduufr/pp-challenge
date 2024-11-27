@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {TaskModalTypeEnum} from './task-modal.enum';
+import {PaymentModalTypeEnum} from '../../core/enum/payment-modal.enum';
 import {Modal} from 'bootstrap';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -8,22 +8,22 @@ import moment from 'moment';
 import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 
 @Component({
-  selector: 'app-task-modal',
+  selector: 'app-payment-modal',
   imports: [
     ReactiveFormsModule,
     NgIf
   ],
   standalone: true,
-  templateUrl: './task-modal.component.html',
-  styleUrl: './task-modal.component.scss'
+  templateUrl: './payment-modal.component.html',
+  styleUrl: './payment-modal.component.scss'
 })
-export class TaskModalComponent implements OnInit, AfterViewInit {
+export class PaymentModalComponent implements OnInit, AfterViewInit {
 
-  type: TaskModalTypeEnum = TaskModalTypeEnum.ADD
-  @ViewChild('taskModalSelector') taskModalActionsModal!: ElementRef
-  task?: PaymentDTO = undefined
+  type: PaymentModalTypeEnum = PaymentModalTypeEnum.ADD
+  @ViewChild('paymentModalSelector') paymentActionsModal!: ElementRef
+  payment?: PaymentDTO = undefined
   form!: FormGroup
-  protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
+  protected readonly PaymentModalTypeEnum = PaymentModalTypeEnum;
   modal!: Modal
   error: string = ''
   successMessage: string = ''
@@ -44,22 +44,22 @@ export class TaskModalComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.taskModalActionsModal.nativeElement.addEventListener('hidden.bs.modal', () => {
+    this.paymentActionsModal.nativeElement.addEventListener('hidden.bs.modal', () => {
       this.resetForm()
     })
   }
 
-  open(task?: PaymentDTO): void {
-    this.modal = new Modal(this.taskModalActionsModal.nativeElement)
-    if (task) {
-      this.task = task
+  open(payment?: PaymentDTO): void {
+    this.modal = new Modal(this.paymentActionsModal.nativeElement)
+    if (payment) {
+      this.payment = payment
       this.form.setValue({
-        username: task?.username || '',
-        title: task?.title || '',
-        value: task?.value || 0,
-        date: moment(task.date).format('YYYY-MM-DD') || '',
-        name: task?.name || '',
-        image: task?.image || '',
+        username: payment?.username || '',
+        title: payment?.title || '',
+        value: payment?.value || 0,
+        date: moment(payment.date).format('YYYY-MM-DD') || '',
+        name: payment?.name || '',
+        image: payment?.image || '',
       })
     }
     this.modal.show()
@@ -72,21 +72,21 @@ export class TaskModalComponent implements OnInit, AfterViewInit {
   }
 
   handleAction(): void {
-    if (this.type === TaskModalTypeEnum.ADD) {
-      this.addTask()
+    if (this.type === PaymentModalTypeEnum.ADD) {
+      this.addPayment()
       return
     }
-    this.editTask()
+    this.editPayment()
   }
 
   resetForm(): void {
     this.form.reset();
-    this.task = undefined;
+    this.payment = undefined;
     this.error = '';
     this.successMessage = '';
   }
 
-  addTask(): void {
+  addPayment(): void {
     this.error = ''
     this.successMessage = ''
     const {id,...newPayment} = new PaymentDTO(this.form.value)
@@ -106,10 +106,10 @@ export class TaskModalComponent implements OnInit, AfterViewInit {
       })
   }
 
-  editTask(): void {
+  editPayment(): void {
     this.error = ''
     this.successMessage = ''
-    const paymentClone = {...this.task, ...this.form.value}
+    const paymentClone = {...this.payment, ...this.form.value}
     this.dashboardService.editPayment(paymentClone)
       .subscribe({
         next: (paymentUpdated: PaymentDTO) => {

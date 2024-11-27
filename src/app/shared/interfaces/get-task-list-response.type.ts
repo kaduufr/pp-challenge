@@ -1,7 +1,7 @@
-import {TaskResponseType} from './task-response.type';
+import {PaymentResponseType} from './payment-response.type';
 
 export type GetTaskListResponseType = {
-  data: TaskResponseType[];
+  data: PaymentResponseType[];
   first: number;
   prev?: number;
   next?: number;

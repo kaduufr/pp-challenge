@@ -34,7 +34,7 @@ describe('Dashboard Component', () => {
 
       cy.get('.dashboard__form-button-add').click();
 
-      cy.get('app-task-modal').should('be.visible');
+      cy.get('app-payment-modal').should('be.visible');
 
       cy.get('input#username').type('teste3');
       cy.get('input#date').click().type('2024-11-07');
@@ -43,7 +43,7 @@ describe('Dashboard Component', () => {
       cy.get('input#value').type('150');
       cy.get('input#imageUrl').type('http://exemplo.com/imagem.jpg');
 
-      cy.get('button.task-modal__btn-save').click();
+      cy.get('button.payment-modal__btn-save').click();
 
       cy.wait('@createPayment');
 
@@ -51,7 +51,7 @@ describe('Dashboard Component', () => {
 
       cy.wait(2500);
 
-      cy.get('app-task-modal').should('not.be.visible');
+      cy.get('app-payment-modal').should('not.be.visible');
 
     });
 
@@ -67,7 +67,7 @@ describe('Dashboard Component', () => {
       cy.get('input#value').type('150');
       cy.get('input#imageUrl').type('http://exemplo.com/imagem.jpg');
 
-      cy.get('button.task-modal__btn-save').click();
+      cy.get('button.payment-modal__btn-save').click();
 
       cy.wait('@createPayment');
 
@@ -81,11 +81,11 @@ describe('Dashboard Component', () => {
       cy.intercept('GET', '/tasks?_page=1&_per_page=10', {fixture: 'paymentsAfterUpdate.json'}).as('getPaymentListUpdated');
 
       cy.get('.dashboard__table tbody tr:first-child .dashboard__table-btn-edit').click();
-      cy.get('app-task-modal').should('be.visible');
+      cy.get('app-payment-modal').should('be.visible');
 
       cy.get('input#title').type('Title Changed');
 
-      cy.get('button.task-modal__btn-save').click();
+      cy.get('button.payment-modal__btn-save').click();
 
       cy.wait('@editPayment');
 
@@ -104,10 +104,10 @@ describe('Dashboard Component', () => {
       cy.intercept('PUT', '/tasks/1', {statusCode: 500, body: {error: 'Erro ao editar pagamento'}}).as('editPayment');
 
       cy.get('.dashboard__table tbody tr:first-child .dashboard__table-btn-edit').click();
-      cy.get('app-task-modal').should('be.visible');
+      cy.get('app-payment-modal').should('be.visible');
 
       cy.get('input#title').type('Title Changed');
-      cy.get('button.task-modal__btn-save').click();
+      cy.get('button.payment-modal__btn-save').click();
 
       cy.wait('@editPayment');
 

@@ -43,7 +43,7 @@
       </div>
       <div>
         <button class="btn btn-primary d-inline-flex align-items-center dashboard__form-button-add"
-                (click)="openModalHandlePayment(TaskModalTypeEnum.ADD)">
+                (click)="openModalHandlePayment(PaymentModalTypeEnum.ADD)">
           <i class="bi bi-plus-circle me-2"></i>
           <span>Novo pagamento</span>
         </button>
@@ -107,7 +107,7 @@
                 class="dashboard__table-btn-edit"
                 title="Editar pagamento"
                 aria-label="Editar pagamento"
-                (click)="openModalHandlePayment(TaskModalTypeEnum.EDIT, payment)">
+                (click)="openModalHandlePayment(PaymentModalTypeEnum.EDIT, payment)">
                 <i class="bi bi-pencil-fill"></i>
               </button>
               <button
@@ -144,7 +144,7 @@
     </div>
   </div>
 
-  <app-task-modal #taskModalSelector (onPaymentEdited)="handlePaymentEdited($event)"/>
+  <app-payment-modal #paymentModalSelector (onPaymentEdited)="handlePaymentEdited($event)"/>
   <app-delete-payment-modal #deletePaymentModalSelector (deletePaymentEvent)="handleDeletePaymentEvent($event)"/>
 
 </main>

@@ -3,8 +3,8 @@ import {TopBarComponent} from '../../shared/top-bar/top-bar.component';
 import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
-import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
-import {TaskModalTypeEnum} from '../../shared/task-modal/task-modal.enum';
+import {PaymentModalComponent} from '../../shared/payment-modal/payment-modal.component';
+import {PaymentModalTypeEnum} from '../../core/enum/payment-modal.enum';
 import {DeletePaymentModalComponent} from '../../shared/delete-payment-modal/delete-payment-modal.component';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import moment from 'moment';
@@ -19,7 +19,7 @@ import {HttpErrorResponse} from '@angular/common/http';
   imports: [
     TopBarComponent,
     NgForOf,
-    TaskModalComponent,
+    PaymentModalComponent,
     DeletePaymentModalComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -33,12 +33,12 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class DashboardComponent implements OnInit {
 
-  protected readonly TaskModalTypeEnum = TaskModalTypeEnum;
+  protected readonly PaymentModalTypeEnum = PaymentModalTypeEnum;
   protected readonly moment = moment;
   error: string = '';
   paymentList: PaymentDTO[] = [];
   rowsNumber: number[] = [10, 15, 20, 25, 30];
-  @ViewChild("taskModalSelector") taskModal!: TaskModalComponent
+  @ViewChild("paymentModalSelector") paymentModal!: PaymentModalComponent
   @ViewChild("deletePaymentModalSelector") deletePaymentModal!: DeletePaymentModalComponent
   searchForm!: FormGroup
   filterApplied: boolean = false;
@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getTaskList(this.pagination.currentPage)
+    this.getPaymentList(this.pagination.currentPage)
     this.searchForm = new FormGroup({
       username: new FormControl('')
     })
@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
     return this.searchForm.get('username')?.value
   }
 
-  getTaskList(page: number = 1): void {
+  getPaymentList(page: number = 1): void {
     this.dashboardService.getPaymentList(page, this.pagination.itemsPerPage)
       .subscribe({
         next: (response: GetPaymentListResponseType) => {
@@ -94,13 +94,13 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  openModalHandlePayment(type: TaskModalTypeEnum = TaskModalTypeEnum.ADD, task?: PaymentDTO): void {
-    this.taskModal.type = type
-    if (type === TaskModalTypeEnum.ADD) {
-      this.taskModal.open()
+  openModalHandlePayment(type: PaymentModalTypeEnum = PaymentModalTypeEnum.ADD, payment?: PaymentDTO): void {
+    this.paymentModal.type = type
+    if (type === PaymentModalTypeEnum.ADD) {
+      this.paymentModal.open()
       return
     }
-    this.taskModal.open(task)
+    this.paymentModal.open(payment)
   }
 
   openModalDeletePayment(payment: PaymentDTO): void {
@@ -113,8 +113,8 @@ export class DashboardComponent implements OnInit {
     }
     this.dashboardService.getPaymentByUsername(username)
       .subscribe({
-        next: (tasks) => {
-          this.paymentList = tasks
+        next: (payments: PaymentDTO[]) => {
+          this.paymentList = payments
           this.filterApplied = true
         },
         error: (_error) => {
@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
   clearSearch() {
     this.searchForm.reset()
     this.filterApplied = false
-    this.getTaskList(this.pagination.currentPage)
+    this.getPaymentList(this.pagination.currentPage)
   }
 
   onCheckPaymentChange(payment: PaymentDTO) {
@@ -151,24 +151,24 @@ export class DashboardComponent implements OnInit {
   }
 
   handleDeletePaymentEvent(_payment: PaymentDTO) {
-    this.getTaskList(this.pagination.currentPage)
+    this.getPaymentList(this.pagination.currentPage)
   }
 
   changePage(page: number) {
-    this.getTaskList(page)
+    this.getPaymentList(page)
   }
 
   changeItemsPerPage(event: Event) {
     this.pagination.itemsPerPage = Number((event.target as HTMLSelectElement).value)
-    this.getTaskList(this.pagination.currentPage)
+    this.getPaymentList(this.pagination.currentPage)
   }
 
   handlePaymentEdited(payment: PaymentDTO) {
-    this.paymentList = this.paymentList.map((task: PaymentDTO): PaymentDTO => {
-      if (task.id === payment.id) {
+    this.paymentList = this.paymentList.map((item: PaymentDTO): PaymentDTO => {
+      if (item.id === payment.id) {
         return payment
       }
-      return task
+      return item
     })
   }
 }

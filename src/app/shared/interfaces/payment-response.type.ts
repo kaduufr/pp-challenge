@@ -1,4 +1,4 @@
-export type TaskResponseType = {
+export type PaymentResponseType = {
   id: number;
   name: string
   username: string;

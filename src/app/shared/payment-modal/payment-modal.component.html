@@ -1,16 +1,16 @@
 <div
-  class="modal fade task-modal__container"
-  id="taskModalActionsModal"
+  class="modal fade payment-modal__container"
+  id="paymentActionsModal"
   tabindex="-1"
   aria-labelledby="paymentsModalTitle"
-  #taskModalSelector
+  #paymentModalSelector
 >
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header flex-column align-items-stretch">
         <div class="d-inline-flex w-full justify-content-between align-items-center">
           <h5 class="modal-title text-black" id="paymentsModalTitle">
-            {{ type === TaskModalTypeEnum.EDIT ? 'Editar' : 'Adicionar' }} Pagamento
+            {{ type === PaymentModalTypeEnum.EDIT ? 'Editar' : 'Adicionar' }} Pagamento
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"
                   aria-label="Close"></button>
@@ -129,11 +129,11 @@
         </button>
         <button
           type="button"
-          class="btn btn-primary task-modal__btn-save"
+          class="btn btn-primary payment-modal__btn-save"
           [disabled]="form.invalid"
           (click)="handleAction()"
         >
-          <ng-container *ngIf="type === TaskModalTypeEnum.EDIT; else addTask">
+          <ng-container *ngIf="type === PaymentModalTypeEnum.EDIT; else addTask">
             Editar
           </ng-container>
 
