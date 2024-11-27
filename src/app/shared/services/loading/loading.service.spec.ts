@@ -13,4 +13,26 @@ describe('LoadingService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should have value as true', (done) => {
+    service.isLoading.subscribe(isLoading => {
+      if (isLoading) {
+        expect(isLoading).toBeTrue();
+        done();
+      }
+    });
+
+    service.emitLoading(true);
+  });
+
+  it('should have value as false ', (done) => {
+    service.isLoading.subscribe(isLoading => {
+      if (!isLoading) {
+        expect(isLoading).toBeFalse();
+        done();
+      }
+    });
+
+    service.emitLoading(false);
+  });
 });
