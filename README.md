@@ -92,5 +92,5 @@ src /
 
 #### Screenshots
 
-[Clique para ir para pasta de imagens](https://github.com/kaduufr/pp-challenge/screenshots)
+[Clique para ir para pasta de imagens](https://github.com/kaduufr/pp-challenge/tree/main/screenshots)
 
