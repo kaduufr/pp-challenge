@@ -3,8 +3,8 @@ import {TestBed} from '@angular/core/testing';
 import {LoginService} from './login.service';
 import {HttpClient, HttpErrorResponse, provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting, TestRequest} from '@angular/common/http/testing';
-import {UserResponseType} from '../../interfaces/user-response.type';
-import {LoginDTO} from '../../../core/DTO/loginDTO';
+import {UserResponseType} from '../../../shared/interfaces/user-response.type';
+import {LoginDTO} from '../../DTO/loginDTO';
 import {of} from 'rxjs';
 
 describe('LoginService', () => {

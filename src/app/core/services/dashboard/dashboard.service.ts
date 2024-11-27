@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, throwError} from 'rxjs';
-import {PaymentDTO} from '../../../core/DTO/paymentDTO';
+import {PaymentDTO} from '../../DTO/paymentDTO';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {GetTaskListResponseType} from '../../interfaces/get-task-list-response.type';
-import {GetPaymentListResponseType} from '../../interfaces/get-payment-list-response.type';
-import {TaskResponseType} from '../../interfaces/task-response.type';
+import {GetTaskListResponseType} from '../../../shared/interfaces/get-task-list-response.type';
+import {GetPaymentListResponseType} from '../../../shared/interfaces/get-payment-list-response.type';
+import {TaskResponseType} from '../../../shared/interfaces/task-response.type';
 
 @Injectable({
   providedIn: 'root'

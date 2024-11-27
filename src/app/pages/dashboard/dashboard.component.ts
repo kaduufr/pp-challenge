@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TopBarComponent} from '../../shared/top-bar/top-bar.component';
-import {DashboardService} from '../../shared/services/dashboard/dashboard.service';
+import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 import {CurrencyPipe, NgForOf, NgIf} from '@angular/common';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';

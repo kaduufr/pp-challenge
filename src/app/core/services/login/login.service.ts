@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, map, catchError, throwError} from 'rxjs';
-import {UserResponseType} from '../../interfaces/user-response.type';
+import {UserResponseType} from '../../../shared/interfaces/user-response.type';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 @Injectable({

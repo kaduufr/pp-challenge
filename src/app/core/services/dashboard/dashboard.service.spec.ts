@@ -1,10 +1,10 @@
 import {TestBed} from '@angular/core/testing';
 
 import {DashboardService} from './dashboard.service';
-import {PaymentDTO} from '../../../core/DTO/paymentDTO';
+import {PaymentDTO} from '../../DTO/paymentDTO';
 import {HttpTestingController, provideHttpClientTesting, TestRequest} from '@angular/common/http/testing';
-import {GetTaskListResponseType} from '../../interfaces/get-task-list-response.type';
-import {GetPaymentListResponseType} from '../../interfaces/get-payment-list-response.type';
+import {GetTaskListResponseType} from '../../../shared/interfaces/get-task-list-response.type';
+import {GetPaymentListResponseType} from '../../../shared/interfaces/get-payment-list-response.type';
 import {provideHttpClient} from '@angular/common/http';
 
 describe('DashboardService', () => {

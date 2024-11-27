@@ -5,7 +5,7 @@ import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import moment from 'moment';
-import {DashboardService} from '../services/dashboard/dashboard.service';
+import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-task-modal',

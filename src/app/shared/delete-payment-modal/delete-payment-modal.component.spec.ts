@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeletePaymentModalComponent } from './delete-payment-modal.component';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
-import {DashboardService} from '../services/dashboard/dashboard.service';
+import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {of, throwError} from 'rxjs';
 import {provideHttpClient} from '@angular/common/http';

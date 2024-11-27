@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/c
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {CurrencyPipe, DatePipe, NgIf} from '@angular/common';
 import {Modal} from 'bootstrap';
-import {DashboardService} from '../services/dashboard/dashboard.service';
+import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 
 @Component({
   selector: 'app-delete-payment-modal',

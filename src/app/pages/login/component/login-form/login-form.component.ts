@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LoginService} from '../../../../shared/services/login/login.service';
-import {AuthService} from '../../../../shared/services/auth/auth.service';
+import {LoginService} from '../../../../core/services/login/login.service';
+import {AuthService} from '../../../../core/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {NgClass, NgIf} from '@angular/common';
 import {finalize} from 'rxjs';

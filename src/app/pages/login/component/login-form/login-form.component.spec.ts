@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginFormComponent } from './login-form.component';
-import {LoginService} from '../../../../shared/services/login/login.service';
-import {AuthService} from '../../../../shared/services/auth/auth.service';
+import {LoginService} from '../../../../core/services/login/login.service';
+import {AuthService} from '../../../../core/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {ReactiveFormsModule} from '@angular/forms';
 import {provideHttpClient} from '@angular/common/http';

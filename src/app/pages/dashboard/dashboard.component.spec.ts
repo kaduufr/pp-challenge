@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {DashboardComponent} from './dashboard.component';
 import {TaskModalComponent} from '../../shared/task-modal/task-modal.component';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
-import {DashboardService} from '../../shared/services/dashboard/dashboard.service';
+import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 import {UtilityService} from '../../shared/services/utility/utility.service';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {DeletePaymentModalComponent} from '../../shared/delete-payment-modal/delete-payment-modal.component';

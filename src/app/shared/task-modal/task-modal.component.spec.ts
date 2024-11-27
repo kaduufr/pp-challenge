@@ -1,7 +1,7 @@
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import {TaskModalComponent} from './task-modal.component';
-import {DashboardService} from '../services/dashboard/dashboard.service';
+import {DashboardService} from '../../core/services/dashboard/dashboard.service';
 import {of, throwError} from 'rxjs';
 import {PaymentDTO} from '../../core/DTO/paymentDTO';
 import {provideHttpClient} from '@angular/common/http';
