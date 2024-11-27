@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:headless": "ng test --browsers ChromeHeadless",
     "mock": "npx json-server --watch mock/db.json --port 3030",
     "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "prepare": "husky"
   },
   "private": true,
