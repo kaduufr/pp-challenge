@@ -1,18 +1,25 @@
 <header class="w-100 top-bar__container">
-  <nav class="navbar navbar-expand-lg ">
-    <div class="container d-inline-flex justify-content-between align-items-center ">
-      <h1 title="PayDashboard" class="navbar-brand">Pay<span>Dashboard</span></h1>
+  <nav class="navbar navbar-expand-lg top-bar__nav" role="navigation">
+    <div class="container d-inline-flex justify-content-between align-items-center">
+      <h1 title="PayDashboard" class="navbar-brand top-bar__title">Pay<span>Dashboard</span></h1>
       <ul class="nav d-inline-flex align-items-center">
         <li class="nav-item">
-          <button class="nav-link px-2 nav-btn__user d-flex align-items-center" disabled aria-disabled="true"
-                  aria-label="Botão para as ações do usuario">
-            <img src="assets/images/rosto.webp" alt="Imagem do usuario">
+          <button
+            class="nav-link px-2 top-bar__nav-btn--user d-flex align-items-center"
+            disabled
+            aria-disabled="true"
+            aria-label="Botão do usuário desativado">
+            <img src="assets/images/rosto.webp" alt="Avatar do usuário">
           </button>
         </li>
         <li class="nav-item">
-          <button (click)="logout()" class="nav-link px-2 nav-btn__sair d-flex align-items-center">
+          <button
+            (click)="logout()"
+            class="nav-link px-2 top-bar__nav-btn--logout d-flex align-items-center"
+            aria-label="Sair do sistema"
+          >
             <span>Sair</span>
-            <i class="bi bi-box-arrow-right" size="22px"></i>
+            <i class="bi bi-box-arrow-right" size="22px" aria-hidden="true"></i>
           </button>
         </li>
       </ul>
