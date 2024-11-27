@@ -14,7 +14,7 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     if (typeof window === 'undefined') return false;
-    const userData = this.sessionStorage.getItem('user');
+    const userData = this.sessionStorage.getItem<UserDTO>('user');
     return !!userData
   }
 

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, map, catchError, throwError} from 'rxjs';
 import {UserResponseType} from '../../interfaces/user-response.type';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +22,11 @@ export class LoginService {
         }
         return user;
       }),
-      catchError((err) => throwError(() => new Error(err.message)))
+      catchError((_error: HttpErrorResponse) => throwError(() => new Error("Erro ao fazer login")))
     )
   }
 
-  private findUserByEmail(email: string): Observable<UserResponseType | undefined> {
+  findUserByEmail(email: string): Observable<UserResponseType | undefined> {
     return this.httpClient.get<UserResponseType[]>(`/account?email=${email}`)
       .pipe(
         map((users) => users[0]),

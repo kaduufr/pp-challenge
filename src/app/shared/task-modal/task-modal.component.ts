@@ -6,15 +6,12 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {NgIf} from '@angular/common';
 import moment from 'moment';
 import {DashboardService} from '../services/dashboard/dashboard.service';
-import {LoadingComponent} from '../loading/loading.component';
-import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-task-modal',
   imports: [
     ReactiveFormsModule,
-    NgIf,
-    LoadingComponent
+    NgIf
   ],
   standalone: true,
   templateUrl: './task-modal.component.html',

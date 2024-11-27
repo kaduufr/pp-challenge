@@ -27,7 +27,7 @@ export class PaginatorComponent {
     }
   }
 
-  pagesToShow(limitPages = 5): number[] {
+  pagesToShow(limitPages: number = 5): number[] {
     const pages: number[] = [];
     const halfLimit = Math.floor(limitPages / 2);
 

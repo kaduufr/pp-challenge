@@ -5,7 +5,6 @@ import {SessionStorageService} from '../../../../shared/services/session-storage
 import {AuthService} from '../../../../shared/services/auth/auth.service';
 import {Router} from '@angular/router';
 import {NgClass, NgIf} from '@angular/common';
-import {LoadingComponent} from '../../../../shared/loading/loading.component';
 import {finalize} from 'rxjs';
 import {LoginDTO} from '../../../../core/DTO/loginDTO';
 
@@ -14,7 +13,6 @@ import {LoginDTO} from '../../../../core/DTO/loginDTO';
   imports: [
     ReactiveFormsModule,
     NgIf,
-    LoadingComponent,
     NgClass
   ],
   standalone: true,
