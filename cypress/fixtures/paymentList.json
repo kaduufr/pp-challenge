@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Test 1",
+      "username": "user1",
+      "date": "2024-01-01",
+      "isPayed": false,
+      "value": 100,
+      "image": "image.jpg",
+      "title": "Title"
+    },
+    {
+      "id": 2,
+      "name": "Test 2",
+      "username": "user2",
+      "date": "2024-01-02",
+      "isPayed": true,
+      "value": 200,
+      "image": "image.jpg",
+      "title": "Title"
+    }
+  ],
+  "first": 1,
+  "items": 2,
+  "pages": 2
+}
+

@@ -29,7 +29,7 @@ export class LoginFormComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.form = new FormGroup<any>({
+    this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
     })

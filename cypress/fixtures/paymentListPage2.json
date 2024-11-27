@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Test 1",
+      "username": "user1",
+      "date": "2024-01-01",
+      "isPayed": false,
+      "value": 100,
+      "image": "image.jpg",
+      "title": "Title"
+    },
+    {
+      "id": 2,
+      "name": "Test 2",
+      "username": "user2",
+      "date": "2024-01-02",
+      "isPayed": true,
+      "value": 200,
+      "image": "image.jpg",
+      "title": "Title"
+    },
+    {
+      "id": 3,
+      "name": "Test 3",
+      "username": "user3",
+      "date": "2024-01-03",
+      "isPayed": false,
+      "value": 150,
+      "image": "image.jpg",
+      "title": "Title"
+    },
+    {
+      "id": 4,
+      "name": "Test 4",
+      "username": "user4",
+      "date": "2024-01-04",
+      "isPayed": true,
+      "value": 250,
+      "image": "image.jpg",
+      "title": "Title"
+    },
+    {
+      "id": 5,
+      "name": "Test 5",
+      "username": "user5",
+      "date": "2024-01-05",
+      "isPayed": false,
+      "value": 300,
+      "image": "image.jpg",
+      "title": "Title"
+    }
+  ],
+  "first": 2,
+  "items": 2,
+  "pages": 2
+}
+

@@ -21,15 +21,31 @@
         </div>
 
         <ng-container *ngIf="data">
-          <p>Usuário: {{ data.name || '' }}</p>
-          <p>Data: {{ data.date | date: 'dd/MM/yyyy' }}</p>
-          <p>Valor: {{ data.value | currency: 'BRL' }}</p>
+          <p
+            aria-label="Nome do usuário"
+            role="contentinfo"
+          >
+            Usuário: {{ data.name || '' }}
+          </p>
+          <p
+            aria-label="Data do pagamento"
+            role="contentinfo"
+          >
+            Data: {{ data.date | date: 'dd/MM/yyyy' }}
+          </p>
+          <p
+            aria-label="Valor do pagamento"
+            role="contentinfo"
+          >
+            Valor: {{ data.value | currency: 'BRL' }}
+          </p>
         </ng-container>
 
       </div>
       <div class="modal-footer">
         <button
           type="button"
+          id="btnCloseModal"
           class="btn btn-secondary"
           (click)="close()"
         >
@@ -37,6 +53,7 @@
         </button>
         <button
           type="button"
+          id="btnDeletePayment"
           class="btn btn-outline-danger"
           (click)="deletePayment(data)"
         >

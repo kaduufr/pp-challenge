@@ -22,7 +22,7 @@ describe('Login Page', () => {
     const inputEmail = cy.get('input[formControlName="email"]');
     inputEmail.type('invalid-email').blur()
     cy.get('#input-email-error').should('be.visible').and('contain.text', 'Email inválido');
-    inputEmail.clear().blur()
+    inputEmail.clear()
     cy.get('#input-email-error').should('be.visible').and('contain.text', 'Este campo é obrigatório');
 
     cy.get('button[type="submit"]').should('be.disabled');

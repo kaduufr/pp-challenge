@@ -8,7 +8,8 @@
   },
   "include": [
     "../node_modules/cypress",
-    "**/*.ts"
+    "./**/**.*.ts",
+    "./**/**.ts"
   ],
   "exclude": [
     "../node_modules"
