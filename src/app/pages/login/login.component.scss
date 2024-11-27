@@ -1,26 +1,27 @@
 .login-page {
-  .columnRight {
+  &__column-right {
     width: 40%;
     height: 100vh;
     background-color: #ececec;
   }
-  .columnLeft {
+
+  &__column-left {
     width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .login_img_size {
+  &__login-img {
     width: 75%;
     height: 45%;
   }
 
   @media screen and (max-width: 992px) {
-    .columnLeft {
+    &__column-left {
       display: none;
     }
-    .columnRight {
+    &__column-right {
       width: 100%;
     }
   }

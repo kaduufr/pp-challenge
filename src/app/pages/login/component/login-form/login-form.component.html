@@ -1,20 +1,21 @@
-<div class="d-flex h-100 justify-content-center align-items-center login-form_page">
-  <div class="d-flex flex-column div-form-centered m-4 py-4">
-    <h1 class="text-left" id="login-title">Pay<span>Dashboard</span></h1>
-    <h2 class="text-left" id="welcome-message">Bem vindo de volta!</h2>
+<div class="login-form">
+  <div class="login-form__form-centered d-flex flex-column m-4 py-4">
+    <h1 class="login-form__title text-left" id="login-title">Pay<span>Dashboard</span></h1>
+    <h2 class="login-form__welcome-message text-left" id="welcome-message">Bem vindo de volta!</h2>
 
     <form [formGroup]="form" (ngSubmit)="submit()" aria-labelledby="login-title">
       <fieldset class="form-floating mb-4 position-relative">
         <input
           type="email"
           class="form-control"
-          id="email"
+          id="emailLabel"
           placeholder="name@example.com"
           aria-required="true"
           formControlName="email"
+          aria-labelledby="email"
           aria-describedby="input-email-error"
         />
-        <label for="email">Email</label>
+        <label for="emailLabel">Email</label>
         <small
           *ngIf="email?.touched && email?.dirty && email?.invalid"
           id="input-email-error"
@@ -26,13 +27,13 @@
         <input
           [type]="showPassword ? 'text': 'password' "
           class="form-control"
-          id="password"
+          id="passwordLabel"
           placeholder="Password"
           formControlName="password"
           aria-required="true"
           aria-describedby="input-password-error"
         />
-        <label for="password">Senha</label>
+        <label for="passwordLabel">Senha</label>
         <small
           *ngIf="password?.touched && password?.dirty && password?.invalid"
           id="input-password-error"
@@ -41,22 +42,23 @@
         </small>
         <button
           type="button"
-          class="btn btn-outline-secondary btn-sm position-absolute end-0 top-0 m-2 mt-3 form-btn__show-password"
+          class="login-form__show-password-btn btn btn-outline-secondary btn-sm position-absolute end-0 top-0 m-2 mt-3"
           (click)="togglePassword()"
           aria-label="Mostrar ou ocultar senha"
+          [attr.aria-pressed]="showPassword ? 'true' : 'false'"
         >
           <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
         </button>
       </fieldset>
       <button
         type="submit"
-        class="btn btn-primary w-100 btn-submit-login"
+        class="login-form__submit-button btn btn-primary w-100"
         [disabled]="form.invalid"
       >
-          Acessar
+        Acessar
       </button>
     </form>
-    <div *ngIf="!!error" class="text-danger mt-3" role="alert">
+    <div *ngIf="!!error" class="alert alert-danger mt-3" role="alert">
       {{ error }}
     </div>
   </div>

@@ -1,27 +1,30 @@
-.dashboard__container {
+.dashboard {
+  &__container {
+    background-color: #e8e8e8;
+    padding-top: 3rem;
+    min-height: 100vh;
+    height: 100%;
+  }
 
-  background-color: #e8e8e8;
-  padding-top: 3rem;
-  min-height: 100vh;
-  height: 100%;
-
-  .fs-input__search {
+  &__input-search {
     position: relative;
     width: 320px;
 
-    input {
+    &-input {
       padding-right: 2.1rem;
       min-width: 280px;
+      position: relative;
     }
 
-    span {
+    &-icon {
       position: absolute;
       right: 0.6rem;
       background-color: transparent;
       border: none;
       outline: none;
       margin-left: 0.3rem;
-      > i {
+
+      i {
         background-color: transparent;
         border: none;
         color: #484848;
@@ -30,14 +33,14 @@
     }
   }
 
-  .dashboard-payments__container {
-    background-color: white ;
+  &__payments-container {
+    background-color: white;
     min-height: 50%;
     border-radius: 20px;
     padding-bottom: 2rem;
   }
 
-  .fs-btn__filter {
+  &__btn-filter {
     background-color: #ecf1f5;
     border: 1px solid black;
     border-radius: 6px;
@@ -45,7 +48,8 @@
     margin-left: 0.3rem;
     font-size: 0.9rem;
     font-weight: 400;
-    > i {
+
+    &-icon {
       background-color: transparent;
       border: none;
       color: #484848;
@@ -55,47 +59,50 @@
   }
 
   @media screen and (max-width: 768px) {
-    .fs-input__search {
+    &__input-search {
       width: 100%;
     }
 
-    .form-button__add {
+    &__form-button-add {
       width: 80%;
       margin-top: 0.5rem;
     }
 
-    .dashboard-filter__container {
+    &__filter-container {
       flex-direction: column;
     }
 
-    .div-form__fieldset {
+    &__form-fieldset {
       flex-direction: column;
     }
   }
 
-  .dashboard-table__div {
+  &__table {
     width: 92%;
     margin: 0 auto;
 
-    button.table-btn__edit {
+    &-btn-edit {
       border: none;
       background-color: transparent;
       outline: none;
       color: #198754;
     }
-    button.table-btn__delete {
+
+    &-btn-delete {
       border: none;
       background-color: transparent;
       outline: none;
       color: #dc3545;
     }
 
-    .table-tr__head {
+    &-tr-head {
       th {
         cursor: pointer;
-        :focus {
+
+        &:focus {
           outline: none;
         }
+
         i {
           font-size: 12px;
         }

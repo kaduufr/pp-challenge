@@ -1,20 +1,20 @@
 <nav aria-label="Navegação de paginação" *ngIf="pagination.totalPages > 1">
   <ul class="pagination justify-content-center mb-0">
-    <li class="page-item" [class.disabled]="pagination.currentPage === 1">
-      <button class="page-link" (click)="onPageChange(pagination.currentPage - 1)" aria-label="Página anterior">
+    <li class="page-item pagination__item pagination__item--disabled" [class.pagination__item--disabled]="pagination.currentPage === 1">
+      <button class="page-link pagination__link" (click)="onPageChange(pagination.currentPage - 1)" aria-label="Página anterior">
         <span aria-hidden="true">&laquo;</span>
       </button>
     </li>
 
     <li
-      class="page-item"
+      class="page-item pagination__item"
       *ngFor="let page of pagesToShow(); let index = index"
-      [class.active]="pagination.currentPage === page">
-      <button class="page-link" (click)="onPageChange(page)">{{ page }}</button>
+      [class.pagination__item--active]="pagination.currentPage === page">
+      <button class="page-link pagination__link" (click)="onPageChange(page)">{{ page }}</button>
     </li>
 
-    <li class="page-item" [class.disabled]="pagination.currentPage === pagination.totalPages">
-      <button class="page-link" (click)="onPageChange(pagination.currentPage + 1)" aria-label="Próxima página">
+    <li class="page-item pagination__item pagination__item--disabled" [class.pagination__item--disabled]="pagination.currentPage === pagination.totalPages">
+      <button class="page-link pagination__link" (click)="onPageChange(pagination.currentPage + 1)" aria-label="Próxima página">
         <span aria-hidden="true">&raquo;</span>
       </button>
     </li>

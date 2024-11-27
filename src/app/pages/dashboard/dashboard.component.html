@@ -6,63 +6,60 @@
     <h2>Meus Pagamentos</h2>
   </div>
 
-  <div class="dashboard-payments__container mx-5">
-    <div class="w-100 d-inline-flex justify-content-between px-5 my-4 dashboard-filter__container">
-      <div class="d-inline-flex align-items-center me-auto div-form__fieldset">
+  <div class="dashboard__payments-container mx-5">
+    <div class="w-100 d-inline-flex justify-content-between px-5 my-4 dashboard__filter-container">
+      <div class="d-inline-flex align-items-center me-auto dashboard__form-fieldset">
         <form [formGroup]="searchForm" (ngSubmit)="searchPayment(username)">
-          <fieldset class="d-inline-flex align-items-center fs-input__search">
+          <fieldset class="d-inline-flex align-items-center dashboard__input-search">
             <input
               type="text"
-              class="form-control"
+              class="form-control dashboard__input-search-input"
               name="username"
               formControlName="username"
-              placeholder="Pesquisar usuario"
-              aria-label="Pesquisar usuario"
-              aria-description="Digite aqui o usuario que voce quer pesquisar"/>
-            <span>
-            <ng-container *ngIf="filterApplied; else searchIcon">
-              <button
-                type="reset"
-                class="btn btn-link p-0"
-                aria-label="Botão para limpar barra de busca"
-                (click)="clearSearch()">
-                <i class="bi bi-x-lg text-danger"></i>
-              </button>
-            </ng-container>
-            <ng-template #searchIcon>
-              <i class="bi bi-search"></i>
-            </ng-template>
-        </span>
+              placeholder="Pesquisar usuário"
+              aria-label="Pesquisar usuário"
+              aria-description="Digite aqui o usuário que você quer pesquisar"/>
+            <span class="dashboard__input-search-icon">
+              <ng-container *ngIf="filterApplied; else searchIcon">
+                <button
+                  type="reset"
+                  class="btn btn-link p-0 "
+                  aria-label="Botão para limpar barra de busca"
+                  (click)="clearSearch()">
+                  <i class="bi bi-x-lg text-danger"></i>
+                </button>
+              </ng-container>
+              <ng-template #searchIcon>
+                <i class="bi bi-search"></i>
+              </ng-template>
+            </span>
           </fieldset>
         </form>
-        <button class="align-items-center d-inline-flex fs-btn__filter" (click)="searchPayment(username)">
-          <i class="bi bi-filter"></i>
+        <button class="d-inline-flex align-items-center dashboard__btn-filter" (click)="searchPayment(username)">
+          <i class="dashboard__btn-filter-icon bi bi-filter"></i>
           <span>Filtrar</span>
         </button>
       </div>
       <div>
-        <button class="btn btn-primary d-inline-flex align-items-center form-button__add"
+        <button class="btn btn-primary d-inline-flex align-items-center dashboard__form-button-add"
                 (click)="openModalHandlePayment(TaskModalTypeEnum.ADD)">
           <i class="bi bi-plus-circle me-2"></i>
-          <span>
-          Novo pagamento
-        </span>
+          <span>Novo pagamento</span>
         </button>
       </div>
     </div>
 
-    <div class="dashboard-table__div table-responsive">
+    <div class="dashboard__table table-responsive">
       <table class="table">
         <thead>
-        <tr class="table-tr__head">
-          <th>
-          </th>
+        <tr class="dashboard__table-tr-head">
+          <th></th>
           <th (click)="organizer('username')">
-            <span>Usuario</span>
+            <span>Usuário</span>
             <i class="bi bi-arrow-down-up ms-2"></i>
           </th>
           <th (click)="organizer('title')">
-            <span>Titulo</span>
+            <span>Título</span>
             <i class="bi bi-arrow-down-up ms-2"></i>
           </th>
           <th (click)="organizer('date')">
@@ -81,24 +78,24 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let task of taskList">
+        <tr *ngFor="let payment of paymentList">
           <td>
-            <ng-container *ngIf="task.image">
-              <img [src]="task.image" width="32px" height="32px" alt="Imagem do usuario do pagamento"
+            <ng-container *ngIf="payment.image">
+              <img [src]="payment.image" width="32px" height="32px" alt="Imagem do usuário do pagamento"
                    style="border-radius: 25px;">
             </ng-container>
           </td>
-          <td>{{ task.username }}</td>
-          <td>{{ task.title }}</td>
-          <td>{{ moment(task.date).format('DD/MMM/YYYY hh:mm') }}</td>
-          <td>{{ task.value | currency: 'BRL':'symbol' }}</td>
+          <td>{{ payment.username }}</td>
+          <td>{{ payment.title }}</td>
+          <td>{{ moment(payment.date).format('DD/MMM/YYYY hh:mm') }}</td>
+          <td>{{ payment.value | currency: 'BRL':'symbol' }}</td>
           <td>
-            <div class="form-check w-100 d-inline-flex ">
+            <div class="form-check w-100 d-inline-flex">
               <input
                 class="form-check-input"
                 type="checkbox"
-                [checked]="task.isPayed"
-                (change)="onCheckPaymentChange($event, task)"
+                [checked]="payment.isPayed"
+                (change)="onCheckPaymentChange(payment)"
                 id="flexCheckDefault">
             </div>
           </td>
@@ -106,20 +103,18 @@
             <div class="w-100 d-inline-flex justify-content-center">
               <button
                 type="button"
-                class="table-btn__edit"
+                class="dashboard__table-btn-edit"
                 title="Editar pagamento"
                 aria-label="Editar pagamento"
-                (click)="openModalHandlePayment(TaskModalTypeEnum.EDIT, task)"
-              >
+                (click)="openModalHandlePayment(TaskModalTypeEnum.EDIT, payment)">
                 <i class="bi bi-pencil-fill"></i>
               </button>
               <button
-                class="table-btn__delete"
+                class="dashboard__table-btn-delete"
                 title="Deletar pagamento"
                 type="button"
                 aria-label="Deletar pagamento"
-                (click)="openModalDeletePayment(task)"
-              >
+                (click)="openModalDeletePayment(payment)">
                 <i class="bi bi-x-circle"></i>
               </button>
             </div>
@@ -137,16 +132,14 @@
         <select id="totalItemsToShow" (change)="changeItemsPerPage($event)" class="form-select"
                 aria-label="Quantidade de pagamentos à serem exibidos">
           <ng-container *ngFor="let item of rowsNumber">
-            <option [value]="item" [selected]="item === pagination.itemsPerPage"
-            >{{ item }}
-            </option>
+            <option [value]="item" [selected]="item === pagination.itemsPerPage">{{ item }}</option>
           </ng-container>
         </select>
       </div>
       <app-paginator
         [pagination]="pagination"
-        (changePageEvent)="changePage($event)"
-      ></app-paginator>
+        (changePageEvent)="changePage($event)">
+      </app-paginator>
     </div>
   </div>
 

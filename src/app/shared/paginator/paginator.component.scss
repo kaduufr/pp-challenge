@@ -1,14 +1,20 @@
 .pagination {
-  .page-item.active .page-link {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    color: white;
-  }
+  &__item {
+    &--active {
+      .pagination__link {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: white;
+      }
+    }
 
-  .page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    background-color: #fff;
-    border-color: #dee2e6;
+    &--disabled {
+      .pagination__link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #fff;
+        border-color: #dee2e6;
+      }
+    }
   }
 }

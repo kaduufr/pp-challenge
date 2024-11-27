@@ -1,39 +1,44 @@
-.top-bar__container {
-  position: absolute;
-  h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.6rem;
-    color: white;
-    font-weight: bold;
-    margin: 0;
+.top-bar {
+  &__container {
+    position: absolute;
 
-    span {
-      font-weight: 300;
+    .top-bar__title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.6rem;
       color: white;
-    }
-  }
+      font-weight: bold;
+      margin: 0;
 
-  nav {
-    background-color: #002d69;
-
-    button.nav-btn__sair {
-      color: white;
       span {
-        font-size: 1.1rem;
         font-weight: 300;
-      }
-      i {
-        margin-left: 0.5rem;
-        font-size: 20px;
+        color: white;
       }
     }
 
-    button.nav-btn__user {
-      img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
+    .top-bar__nav {
+      background-color: #002d69;
+
+      &-btn--logout {
+        color: white;
+
+        span {
+          font-size: 1.1rem;
+          font-weight: 300;
+        }
+
+        i {
+          margin-left: 0.5rem;
+          font-size: 20px;
+        }
+      }
+
+      &-btn--user {
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
       }
     }
   }
