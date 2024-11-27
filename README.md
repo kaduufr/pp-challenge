@@ -75,6 +75,7 @@ src /
 |   |   |-- guard /
 |   |   |-- interceptors /
 |   |   |-- DTO /
+|   |   |-- services /
 |   |-- pages /
 |   |   |-- login /
 |   |   |-- dashboard /
@@ -84,7 +85,7 @@ src /
 |   |   |-- services /
 |   |   |-- loading /
 |   |   |-- paginator /
-|   |   |-- task-modal /
+|   |   |-- payment-modal /
 |   |   |-- top-bar /
 ```
 
